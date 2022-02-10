@@ -4,13 +4,13 @@ export async function requestGetCoordinatesFromSearch(query) {
   const r = 150 * 1000;
   try {
     if (query) {
-      let formattedTourismParkingStationsData = [];
-      const tourismParkingStationsRequest = await fetch(
+      let formattedTourismCarsharingStationsData = [];
+      const tourismCarsharingStationsRequest = await fetch(
         `${TOURISM_PATH_MOBILITY}/Poi?pagenumber=1&poitype=64&subtype=2&pagesize=-1&searchfilter=${query}`
       );
-      const tourismParkingStationsResponse = await tourismParkingStationsRequest.json();
-      if (tourismParkingStationsResponse.Items) {
-        formattedTourismParkingStationsData = tourismParkingStationsResponse.Items.map(
+      const tourismCarsharingStationsResponse = await tourismCarsharingStationsRequest.json();
+      if (tourismCarsharingStationsResponse.Items) {
+        formattedTourismCarsharingStationsData = tourismCarsharingStationsResponse.Items.map(
           (o) => {
             if (o.GpsInfo[0]) {
               return {
@@ -24,18 +24,18 @@ export async function requestGetCoordinatesFromSearch(query) {
 
       //
 
-      let formattedMobilityParkingStationsData = [];
-      const mobilityParkingStationsRequest = await fetch(
-        `${BASE_PATH_MOBILITY}/tree,node/ParkingStation/*/latest?where=and(or(smetadata.name_it.ire."${query}",smetadata.name_en.ire."${query}",smetadata.name_de.ire."${query}",sname.ire."${query}"),sactive.eq.true)&select=smetadata,scoordinate,sname`
+      let formattedMobilityCarsharingStationsData = [];
+      const mobilityCarsharingStationsRequest = await fetch(
+        `${BASE_PATH_MOBILITY}/tree,node/CarsharingStation/*/latest?where=and(or(smetadata.name_it.ire."${query}",smetadata.name_en.ire."${query}",smetadata.name_de.ire."${query}",sname.ire."${query}"),sactive.eq.true)&select=smetadata,scoordinate,sname`
       );
-      const mobilityParkingStationsResponse = await mobilityParkingStationsRequest.json();
+      const mobilityCarsharingStationsResponse = await mobilityCarsharingStationsRequest.json();
       if (
-        mobilityParkingStationsResponse.data &&
-        mobilityParkingStationsResponse.data.ParkingStation &&
-        mobilityParkingStationsResponse.data.ParkingStation.stations
+        mobilityCarsharingStationsResponse.data &&
+        mobilityCarsharingStationsResponse.data.CarsharingStation &&
+        mobilityCarsharingStationsResponse.data.CarsharingStation.stations
       ) {
-        formattedMobilityParkingStationsData = Object.values(
-          mobilityParkingStationsResponse.data.ParkingStation.stations
+        formattedMobilityCarsharingStationsData = Object.values(
+          mobilityCarsharingStationsResponse.data.CarsharingStation.stations
         ).map((item) => {
           return {
             position: [item.scoordinate.y, item.scoordinate.x],
@@ -47,8 +47,8 @@ export async function requestGetCoordinatesFromSearch(query) {
 
       let formattedHereData = [];
       if (
-        !formattedTourismParkingStationsData.length &&
-        !formattedMobilityParkingStationsData.length &&
+        !formattedTourismCarsharingStationsData.length &&
+        !formattedMobilityCarsharingStationsData.length &&
         process.env.DOTENV.HEREMAPS_API_KEY
       ) {
         const hereResponse = await fetch(
@@ -90,8 +90,8 @@ export async function requestGetCoordinatesFromSearch(query) {
 
       this.searchPlacesFound = {
         "Open Data Hub": [
-          ...formattedTourismParkingStationsData,
-          ...formattedMobilityParkingStationsData,
+          ...formattedTourismCarsharingStationsData,
+          ...formattedMobilityCarsharingStationsData,
         ],
         "Other results": [...formattedTourismData, ...formattedHereData],
       };

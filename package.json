@@ -1,5 +1,5 @@
 {
-  "name": "odh-parking",
+  "name": "odh-carsharing",
   "private": true,
   "scripts": {
     "build": "webpack --config ./webpack.prod.js",

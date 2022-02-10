@@ -4,10 +4,9 @@ import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import user__marker from "../assets/user.svg";
 import {
-  requestMobilityParking,
-  requestMobilityParkingDetails,
-  requestTourismParking,
-} from "../api/parkingStations";
+  requestCarsharingStations,
+  requestCarsharingCarsOfStation,
+} from "../api/carsharingStations";
 import { getLatLongFromStationDetail } from "../utils";
 import { getPin } from "./utils";
 
@@ -69,21 +68,16 @@ export function drawUserOnMap() {
 export async function drawStationsOnMap() {
   const stations_layer_array = [];
 
-  const parkingStations = await requestMobilityParking();
-  const tourismParkingStations = await requestTourismParking({
-        language: this.language,
-      });
+  const carsharingStations = await requestCarsharingStations();
 
-  if (parkingStations) {
-    Object.values(parkingStations.data.ParkingStation.stations)
+  if (carsharingStations) {
+    Object.values(carsharingStations.data.CarsharingStation.stations)
       .filter((station) => {
         // Use filters on all retrived stations
         let valid = true;
         if (this.filters.availability) {
           if (
-            station.sdatatypes.occupied &&
-            station.sdatatypes.occupied.tmeasurements[0].mvalue >=
-              station.smetadata.capacity
+            station.mvalue > 0
           ) {
             valid = false;
           }
@@ -95,7 +89,7 @@ export async function drawStationsOnMap() {
           station.scoordinate
         );
 
-        const realtimeFreePlaces = station.sdatatypes.free.tmeasurements[0].mvalue
+        const realtimeFreePlaces = station.mvalue
 
         const marker = Leaflet.marker(
           [marker_position.lat, marker_position.lng],
@@ -106,14 +100,16 @@ export async function drawStationsOnMap() {
 
         const action = async () => {
           this.searchPlacesFound = {};
-          const details = await requestMobilityParkingDetails({
+          const details = await requestCarsharingCarsOfStation({
             scode: station.scode,
           });
           if (details) {
+            console.log(details);
             this.currentStation = {
-              ...details.data.ParkingStation.stations[station.scode],
-              lastChange: station.sdatatypes.free.tmeasurements[0].mvalidtime,
+              ...station,
+              lastChange: station.mvalidtime,
             };
+            console.log(this.currentStation);
           }
 
           this.filtersOpen = false;
@@ -125,48 +121,9 @@ export async function drawStationsOnMap() {
       });
   }
 
-  if (tourismParkingStations) {
-    tourismParkingStations.Items.map((station) => {
-      const marker_position = getLatLongFromStationDetail({
-        x: station.GpsPoints.position.Longitude,
-        y: station.GpsPoints.position.Latitude,
-      });
-      const marker = Leaflet.marker(
-        [marker_position.lat, marker_position.lng],
-        {
-          icon: getPin(-1),
-        }
-      );
-
-      const action = async () => {
-        if (station) {
-          this.searchPlacesFound = {};
-          this.currentStation = {
-            scoordinate: marker_position,
-            sname: station.Detail[this.language].Title,
-            smetadata: {
-              mainaddress: `${station.ContactInfos[this.language].City} ${
-                station.ContactInfos[this.language].Address
-              }`,
-              municipality: "",
-            },
-            sdatatypes: undefined,
-            lastChange: station.LastChange,
-          };
-        }
-
-        this.filtersOpen = false;
-        this.detailsOpen = true;
-      };
-
-      marker.on("mousedown", action);
-      stations_layer_array.push(marker);
-    });
-  }
-
   const stations_layer = Leaflet.layerGroup(stations_layer_array, {});
 
-  this.layer_stations = new leaflet_mrkcls.MarkerClusterGroup({
+  this.layer_stations = new Leaflet.MarkerClusterGroup({
     showCoverageOnHover: false,
     chunkedLoading: true,
     iconCreateFunction(cluster) {

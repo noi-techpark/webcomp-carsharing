@@ -35,7 +35,7 @@ export function render_filters() {
             .action="${({ value }) => {
               this.filters = { ...this.filters, availability: value };
             }}"
-            .label="${t["onlyShowParkingSpacesWithAvailableSpots"][
+            .label="${t["onlyShowCarsharingStationsWithAvailableSpots"][
               this.language
             ]}"
             .name="availability"

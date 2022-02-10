@@ -4,11 +4,11 @@ var dotenv = require("dotenv").config({ path: __dirname + "/.env" });
 
 module.exports = {
   mode: "development",
-  entry: path.resolve(__dirname, "./code/odh-parking.js"),
+  entry: path.resolve(__dirname, "./code/odh-carsharing.js"),
   watch: true,
   output: {
     path: path.resolve(__dirname, "./work/scripts"),
-    filename: "odh-parking.js",
+    filename: "odh-carsharing.js",
   },
   plugins: [
     new webpack.DefinePlugin({

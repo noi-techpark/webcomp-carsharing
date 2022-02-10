@@ -14,7 +14,7 @@
   }
 }
 
-.parking {
+.carsharing {
   font-family: var(--w-c-font-family, Suedtirol, KievitWebPro, sans-serif);
   position: relative;
   overflow: hidden;
@@ -59,7 +59,7 @@
   }
 }
 
-.parking__sideBar {
+.carsharing__sideBar {
   position: absolute;
   top: 16px;
   left: 16px;
@@ -71,10 +71,10 @@
     width: 350px;
   }
 
-  .parking__sideBar__tabBar {
+  .carsharing__sideBar__tabBar {
     background-color: white;
   }
-  .parking__sideBar__searchBar {
+  .carsharing__sideBar__searchBar {
     background-color: white;
     .searchBox {
       .searchBox__resoult_list {
@@ -100,8 +100,8 @@
     }
   }
 
-  .parking__sideBar__details,
-  .parking__sideBar__filters {
+  .carsharing__sideBar__details,
+  .carsharing__sideBar__filters {
     height: calc(var(--height) - 86px);
     background-color: $white;
     overflow-y: auto;
@@ -124,12 +124,12 @@
 }
 
 .isSmallWidth {
-  .parking__sideBar {
+  .carsharing__sideBar {
     width: calc(80% - 32px);
   }
 }
 
-.parking__language_picker {
+.carsharing__language_picker {
   display: inline;
   position: absolute;
   right: 16px;

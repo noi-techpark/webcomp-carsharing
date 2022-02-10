@@ -4,7 +4,7 @@ import { css, html, unsafeCSS } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
 import { debounce as _debounce } from "lodash";
 import { requestGetCoordinatesFromSearch } from "./api/poi";
-import { BaseParking } from "./baseClass";
+import { BaseCarsharing } from "./baseClass";
 import { render_details } from "./components/details";
 import { render_filters } from "./components/filters";
 import { render__mapControls } from "./components/mapControls";
@@ -28,9 +28,9 @@ import "./shared_components/sideModalTabs/sideModalTabs";
 import "./shared_components/tag/tag";
 import { t } from "./translations";
 import { isMobile, LANGUAGES } from "./utils";
-import ParkingStyle from "./odh-parking.scss";
+import CarsharingStyle from "./odh-carsharing.scss";
 
-class Parking extends BaseParking {
+class Carsharing extends BaseCarsharing {
   static get properties() {
     return observedProperties;
   }
@@ -39,7 +39,7 @@ class Parking extends BaseParking {
     return css`
       /* Map */
       ${unsafeCSS(leafletStyle)}
-      ${unsafeCSS(ParkingStyle)}
+      ${unsafeCSS(CarsharingStyle)}
     `;
   }
 
@@ -129,9 +129,9 @@ class Parking extends BaseParking {
     if (this.width.includes("px")) {
       isSmallWidth = parseInt(this.width.replace("px")) <= 400;
     } else if (this.width.includes("%")) {
-      if (this.shadowRoot.querySelector(".parking")) {
+      if (this.shadowRoot.querySelector(".carsharing")) {
         isSmallWidth =
-          this.shadowRoot.querySelector(".parking").clientWidth <= 400;
+          this.shadowRoot.querySelector(".carsharing").clientWidth <= 400;
       }
     }
 
@@ -140,10 +140,10 @@ class Parking extends BaseParking {
     if (this.height.includes("px")) {
       isSmallHeight = parseInt(this.height.replace("px")) <= 400;
     } else if (this.height.includes("%")) {
-      if (this.shadowRoot.querySelector(".parking")) {
-        height = `${this.shadowRoot.querySelector(".parking").clientHeight}px`;
+      if (this.shadowRoot.querySelector(".carsharing")) {
+        height = `${this.shadowRoot.querySelector(".carsharing").clientHeight}px`;
         isSmallHeight =
-          this.shadowRoot.querySelector(".parking").clientHeight <= 400;
+          this.shadowRoot.querySelector(".carsharing").clientHeight <= 400;
       }
     }
 
@@ -158,7 +158,7 @@ class Parking extends BaseParking {
 
       <div
         class=${classMap({
-          parking: true,
+          carsharing: true,
           mobile: this.isMobile,
           MODE__mobile__open: this.isMobile && this.mobileOpen,
           MODE__mobile__closed: this.isMobile && !this.mobileOpen,
@@ -180,7 +180,7 @@ class Parking extends BaseParking {
           : ""}
         ${(this.isMobile && this.mobileOpen) || !this.isMobile
           ? html`<div
-                class="parking__language_picker ${this.currentTab === 1
+                class="carsharing__language_picker ${this.currentTab === 1
                   ? "big_margin"
                   : ""}"
               >
@@ -193,18 +193,18 @@ class Parking extends BaseParking {
                 ></wc-languagepicker>
               </div>
 
-              <div class="parking__sideBar">
-                <div class="parking__sideBar__searchBar">
+              <div class="carsharing__sideBar">
+                <div class="carsharing__sideBar__searchBar">
                   ${render_searchPlaces.bind(this)()}
                 </div>
 
                 ${this.detailsOpen
-                  ? html`<div class="parking__sideBar__details mt-4px">
+                  ? html`<div class="carsharing__sideBar__details mt-4px">
                       ${render_details.bind(this)()}
                     </div>`
                   : ""}
                 ${this.filtersOpen
-                  ? html`<div class="parking__sideBar__filters mt-4px">
+                  ? html`<div class="carsharing__sideBar__filters mt-4px">
                       ${render_filters.bind(this)()}
                     </div>`
                   : ""}
@@ -220,5 +220,5 @@ class Parking extends BaseParking {
   }
 }
 
-customElements.get("odh-parking") ||
-  customElements.define("odh-parking", Parking);
+customElements.get("odh-carsharing") ||
+  customElements.define("odh-carsharing", Carsharing);

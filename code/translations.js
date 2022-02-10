@@ -39,31 +39,15 @@ export const t = {
     en: "AVAILABILITY",
     de: "VERFÜGBARKEIT",
   },
-  onlyShowParkingSpacesWithAvailableSpots: {
-    it: "Mostra solo percheggi con posti disponibili",
-    en: "Only show parking spaces with available spots",
-    de: "Nur Parkplätze mit verfügbaren Plätzen anzeigen",
+  onlyShowCarsharingStationsWithAvailableSpots: {
+    it: "Mostra solo stazioni con macchine disponibili",
+    en: "Only show stations with available cars",
+    de: "Nur Stationen mit verfügbaren Wagen anzeigen",
   },
   details: {
     it: "DETTAGLI",
     en: "DETAILS",
     de: "EINZELHEITEN",
-  },
-  forecasts: {
-    it: "PREVISIONI",
-    en: "FORECASTS",
-    de: "PROGNOSEN",
-  },
-
-  totalSeats: {
-    it: "Posti totali",
-    en: "Total seats",
-    de: "Anzahl Parkplätze",
-  },
-  occupiedSeats: {
-    it: "Posti occupati",
-    en: "Occupied seats",
-    de: "Besetzte Plätze",
   },
   address: {
     it: "Indirizzo",
@@ -74,15 +58,5 @@ export const t = {
     it: "Ultimo aggiornamento",
     en: "Last update",
     de: "Letztes Update",
-  },
-  pulsingDot: {
-    it: "Dati in tempo reale",
-    en: "Real time data",
-    de: "Echtzeitdaten"
-  },
-  legend: {
-    it: "Leggenda",
-    en: "Legend",
-    de: "Legende"
   },
 };

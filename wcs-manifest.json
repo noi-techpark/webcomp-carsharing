@@ -1,7 +1,7 @@
 {
-  "title": "Parking",
-  "description": "A widget that allows to easily integrate the list or the map view of the parking lots that are located in all South Tyrol or near a certain location.",
-  "descriptionAbstract": "This web component shows all parking lots provided by the Open Data Hub.",
+  "title": "Carsharing",
+  "description": "A widget that allows to easily integrate the map view of the carsharing cars that are located in all South Tyrol or near a certain location.",
+  "descriptionAbstract": "This web component shows all carsharing cars provided by the Open Data Hub.",
   "license": "AGPL-3.0-or-later",
   "copyrightHolders": [
     {
@@ -21,7 +21,7 @@
   ],
   "image": "wcs-logo.png",
   "searchTags": [
-    "parking",
+    "carsharing",
     "mobility",
     "map",
     "real time"
@@ -29,18 +29,18 @@
   "dist": {
     "basePath": "dist",
     "files": [
-      "odh-parking.js",
-      "odh-parking.js.LICENSE.txt"
+      "odh-carsharing.js",
+      "odh-carsharing.js.LICENSE.txt"
     ],
     "scripts": [
       {
-        "file": "odh-parking.js",
+        "file": "odh-carsharing.js",
         "parameter": ""
       }
     ]
   },
   "configuration": {
-    "tagName": "odh-parking",
+    "tagName": "odh-carsharing",
     "options": [
       {
         "key": "width",
@@ -117,24 +117,6 @@
         "required": true,
         "options": {
           "default": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        }
-      },
-      {
-        "key": "disableParkingForecast",
-        "type": "null",
-        "label": "If set the forecast graph is hidden.",
-        "required": false,
-        "options": {
-          "default": true
-        }
-      },
-      {
-        "key": "disableParkingDirections",
-        "type": "null",
-        "label": "If set the road directions are hidden.",
-        "required": false,
-        "options": {
-          "default": false
         }
       }
     ]

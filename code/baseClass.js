@@ -1,7 +1,7 @@
 import { LitElement } from "lit-element";
 import { isMobile, LANGUAGES } from "./utils";
 
-export class BaseParking extends LitElement {
+export class BaseCarsharing extends LitElement {
   constructor() {
     super();
     this.height = "500px";
@@ -9,8 +9,7 @@ export class BaseParking extends LitElement {
     this.fontFamily = "";
     this.mapAttribution = "";
     this.language = LANGUAGES.EN;
-    this.disableParkingForecast = false;
-    this.disableParkingDirections = false;
+    this.disableDirections = false;
 
     this.isLoading = true;
     this.mobileOpen = false;
