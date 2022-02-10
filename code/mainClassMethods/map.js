@@ -104,12 +104,10 @@ export async function drawStationsOnMap() {
             scode: station.scode,
           });
           if (details) {
-            console.log(details);
             this.currentStation = {
               ...station,
               lastChange: station.mvalidtime,
             };
-            console.log(this.currentStation);
           }
 
           this.filtersOpen = false;

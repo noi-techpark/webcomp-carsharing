@@ -34,6 +34,11 @@ export const t = {
     en: "Cancel filters",
     de: "Filter verwerfen",
   },
+  bookCar: {
+    it: "Prenota una macchina",
+    en: "Book a car",
+    de: "Buche ein Fahrzeug",
+  },
   availability: {
     it: "DISPONIBILITÀ",
     en: "AVAILABILITY",
@@ -42,7 +47,7 @@ export const t = {
   onlyShowCarsharingStationsWithAvailableSpots: {
     it: "Mostra solo stazioni con macchine disponibili",
     en: "Only show stations with available cars",
-    de: "Nur Stationen mit verfügbaren Wagen anzeigen",
+    de: "Nur Stationen mit verfügbaren Fahrzeugen anzeigen",
   },
   details: {
     it: "DETTAGLI",

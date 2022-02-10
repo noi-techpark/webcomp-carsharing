@@ -21,16 +21,16 @@ export function render_details() {
           .tTitle="${sname}"
           .tLinkedTagText=""
           .tOptionalLink="${!this.disableParkingDirections &&
-          scoordinate.lat !== undefined &&
-          scoordinate.lng !== undefined
-            ? {
-                text: t["directions"][this.language],
-                url: `http://www.google.com/maps/place/${scoordinate.lat},${scoordinate.lng}`,
-              }
-            : undefined}"
+        scoordinate.lat !== undefined &&
+        scoordinate.lng !== undefined
+        ? {
+          text: t["directions"][this.language],
+          url: `http://www.google.com/maps/place/${scoordinate.lat},${scoordinate.lng}`,
+        }
+        : undefined}"
           .closeModalAction="${() => {
-            this.detailsOpen = false;
-          }}"
+        this.detailsOpen = false;
+      }}"
         ></wc-sidemodal-header>
       </div>
       <div>
@@ -59,20 +59,20 @@ export function render_details() {
         .type="title"
         .tTitle="${sname}"
         .tLinkedTagText="${typeof occupiedSpots === "number" &&
-        parkingCapacity - occupiedSpots <= 0
-          ? t["tag__free"][this.language]
-          : ""}"
+      parkingCapacity - occupiedSpots <= 0
+      ? t["tag__free"][this.language]
+      : ""}"
         .tOptionalLink="${!this.disableDirections &&
-        scoordinate.y !== undefined &&
-        scoordinate.x !== undefined
-          ? {
-              text: t["directions"][this.language],
-              url: `http://www.google.com/maps/place/${scoordinate.y},${scoordinate.x}`,
-            }
-          : undefined}"
+      scoordinate.y !== undefined &&
+      scoordinate.x !== undefined
+      ? {
+        text: t["directions"][this.language],
+        url: `http://www.google.com/maps/place/${scoordinate.y},${scoordinate.x}`,
+      }
+      : undefined}"
         .closeModalAction="${() => {
-          this.detailsOpen = false;
-        }}"
+      this.detailsOpen = false;
+    }}"
       ></wc-sidemodal-header>
     </div>
     <div>
@@ -84,7 +84,7 @@ export function render_details() {
       </div>
       <wc-sidemodal-row
         .type="${SIDE_MODAL_ROW_TYPES.horizontal}"
-        .title="avaiable vechicle tanslate please"
+        .title="avaiable vechicle translate please"
         .text="${availableVehicles}"
       ></wc-sidemodal-row>
 
@@ -93,6 +93,14 @@ export function render_details() {
         .title="${t["lastUpdate"][this.language]}"
         .text="${dayjs(lastChange).format("DD/MM/YYYY HH:mm")}"
       ></wc-sidemodal-row>
+
+      <div>
+        <a href="https://booking.carsharing.bz.it" target="_blank">${t["bookCar"][this.language]}</p>
+      </div>
+
+      <div v-if>
+      <a href="http://www.google.com/maps/place/${scoordinate.y},${scoordinate.x}" target="_blank">${t["directions"][this.language]}</p>
+    </div>
 
     </div>
   </div>`;
