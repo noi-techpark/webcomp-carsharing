@@ -89,12 +89,13 @@ export async function drawStationsOnMap() {
           station.scoordinate
         );
 
-        const realtimeFreePlaces = station.mvalue
+        const availableVehicles = station.smetadata.availableVehicles
+        console.log(availableVehicles);
 
         const marker = Leaflet.marker(
           [marker_position.lat, marker_position.lng],
           {
-            icon: getPin(realtimeFreePlaces),
+            icon: getPin(availableVehicles),
           }
         );
 
