@@ -1,0 +1,142 @@
+{
+  "title": "Parking",
+  "description": "A widget that allows to easily integrate the list or the map view of the parking lots that are located in all South Tyrol or near a certain location.",
+  "descriptionAbstract": "This web component shows all parking lots provided by the Open Data Hub.",
+  "license": "AGPL-3.0-or-later",
+  "copyrightHolders": [
+    {
+      "name": "NOI",
+      "email": "info@noi.bz.it",
+      "organization": "NOI S.p.A",
+      "organizationUrl": "https://noi.bz.it"
+    }
+  ],
+  "authors": [
+    {
+      "name": "Belka",
+      "email": "hello@belkadigital.com",
+      "organization": "Belka",
+      "organizationUrl": "https://belkadigital.com/"
+    }
+  ],
+  "image": "wcs-logo.png",
+  "searchTags": [
+    "parking",
+    "mobility",
+    "map",
+    "real time"
+  ],
+  "dist": {
+    "basePath": "dist",
+    "files": [
+      "odh-parking.js",
+      "odh-parking.js.LICENSE.txt"
+    ],
+    "scripts": [
+      {
+        "file": "odh-parking.js",
+        "parameter": ""
+      }
+    ]
+  },
+  "configuration": {
+    "tagName": "odh-parking",
+    "options": [
+      {
+        "key": "width",
+        "type": "text",
+        "label": "Width of the component as css property (es: '500px' or '100%')",
+        "required": false,
+        "options": {
+          "default": "100%"
+        }
+      },
+      {
+        "key": "height",
+        "type": "text",
+        "label": "Height of the component as css property (es: '500px' or '100%')",
+        "required": false,
+        "options": {
+          "default": "100%"
+        }
+      },
+      {
+        "key": "language",
+        "type": "select",
+        "label": "Two letter key for the language to be used, if omitted the widget will use the language of the browser (navigator.language[?s]) if supported. Fallback is `en`",
+        "required": false,
+        "options": {
+          "values": [
+            "en",
+            "de",
+            "it"
+          ],
+          "default": "en"
+        }
+      },
+      {
+        "key": "fontFamily",
+        "type": "text",
+        "label": "Main font family",
+        "required": false,
+        "options": {
+          "default": "Arial"
+        }
+      },
+      {
+        "key": "currentLocation",
+        "type": "text",
+        "label": "Coordinates of the current location in the following format: { \"lat\": 46.31, \"lng\": 11.26 }",
+        "required": true,
+        "options": {
+          "default": "{ \"lat\": 46.31, \"lng\": 11.26 }"
+        }
+      },
+      {
+        "key": "zoom",
+        "type": "number",
+        "label": "Zoom of the map",
+        "required": true,
+        "options": {
+          "default": 10
+        }
+      },
+      {
+        "key": "mapAttribution",
+        "type": "text",
+        "label": "Attribution text for the tiles, can contain html (without double-quotes)",
+        "required": true,
+        "options": {
+          "default": "&copy; <a href='https://openstreetmap.org/copyright'>OpenStreetMap contributors</a>"
+        }
+      },
+      {
+        "key": "tiles-url",
+        "type": "text",
+        "label": "Url for the tiles, see https://leafletjs.com/reference-1.6.0.html#tilelayer",
+        "required": true,
+        "options": {
+          "default": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        }
+      },
+      {
+        "key": "disableParkingForecast",
+        "type": "null",
+        "label": "If set the forecast graph is hidden.",
+        "required": false,
+        "options": {
+          "default": true
+        }
+      },
+      {
+        "key": "disableParkingDirections",
+        "type": "null",
+        "label": "If set the road directions are hidden.",
+        "required": false,
+        "options": {
+          "default": false
+        }
+      }
+    ]
+  }
+}
