@@ -90,7 +90,6 @@ export async function drawStationsOnMap() {
         );
 
         const availableVehicles = station.smetadata.availableVehicles
-        console.log(availableVehicles);
 
         const marker = Leaflet.marker(
           [marker_position.lat, marker_position.lng],
@@ -121,6 +120,7 @@ export async function drawStationsOnMap() {
   }
 
   const stations_layer = Leaflet.layerGroup(stations_layer_array, {});
+  
 
   this.layer_stations = new Leaflet.MarkerClusterGroup({
     showCoverageOnHover: false,
@@ -129,6 +129,7 @@ export async function drawStationsOnMap() {
       return Leaflet.divIcon({
         html: `<div class="marker_cluster__marker">${cluster.getChildCount()}</div>`,
         iconSize: Leaflet.point(30, 30),
+        color: "#8faf30"
       });
     },
   });
