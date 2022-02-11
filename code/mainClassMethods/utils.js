@@ -7,7 +7,7 @@ import Leaflet from "leaflet";
 
 export const getPin = (mvalue) => {
   var pin;
-  if (mvalue === undefined || mvalue < 0) {
+  if (mvalue === undefined || mvalue <= 0) {
     pin = redIcon;
   } else if (mvalue == 1) {
     pin = orangeIcon;

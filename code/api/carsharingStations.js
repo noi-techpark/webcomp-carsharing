@@ -4,7 +4,7 @@ import { BASE_PATH_MOBILITY } from "./config";
 export const requestCarsharingStations = async () => {
   try {
     const request = await fetch(
-      `${BASE_PATH_MOBILITY}/tree,node/CarsharingStation/*/latest?where=sactive.eq.true&select=scoordinate,scode,smetadata`
+      `${BASE_PATH_MOBILITY}/tree,node/CarsharingStation/*/latest?where=sactive.eq.true&select=scoordinate,scode,smetadata,sname,sdatatypes`
     );
     if (request.status !== 200) {
       throw new Error(request.statusText);
