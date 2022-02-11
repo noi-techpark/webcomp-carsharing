@@ -8,11 +8,11 @@ export function render_details() {
     scoordinate,
     sname,
     smetadata,
-    lastChange,
     sdatatypes
   } = this.currentStation;
 
   const actuallyAvailableVehicles = sdatatypes["number-available"]["tmeasurements"][0]["mvalue"]
+  const lastChange = sdatatypes["number-available"]["tmeasurements"][0]["mvalidtime"]
   const availableVehicles = smetadata.availableVehicles;
 
   console.log(this.currentStation);
