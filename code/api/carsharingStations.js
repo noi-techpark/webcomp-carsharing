@@ -18,7 +18,7 @@ export const requestCarsharingStations = async () => {
 export const requestCarsharingCarsOfStation = async ({ scode }) => {
   try {
     const request = await fetch(
-      `${BASE_PATH_MOBILITY}/tree,node/CarsharingCar/*/latest?where=sactive.eq.true,pcode.eq."${scode}"&select=smetadata`
+      `${BASE_PATH_MOBILITY}/tree,node/CarsharingCar/*/latest?where=sactive.eq.true,pcode.eq."${scode}"&select=smetadata,sdatatypes`
     );
     if (request.status !== 200) {
       throw new Error(request.statusText);

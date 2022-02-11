@@ -107,7 +107,7 @@ export async function drawStationsOnMap() {
           this.currentStation = {
             ...station,
             lastChange: station.mvalidtime,
-            cars: carsOfStation
+            cars: carsOfStation.data.CarsharingCar.stations
           };
 
           this.filtersOpen = false;

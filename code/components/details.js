@@ -23,8 +23,10 @@ export function render_details() {
   
   const carDetails = [];
 
-  for (let station in cars.data.CarsharingCar.stations) {
-    carDetails.push(html`<li>${cars.data.CarsharingCar.stations[station].smetadata.brand}</li>`);
+  for (let station in cars) {
+    let brandName = cars[station].smetadata.brand;
+    let availability = cars[station]["sdatatypes"]["availability"]["tmeasurements"][0]["mvalue"] == 0 ? "available" : "not available";
+    carDetails.push(html`<li>${brandName} : ${availability}</li>`);
   }
 
   console.log(carDetails);
