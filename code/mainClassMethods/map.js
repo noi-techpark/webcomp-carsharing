@@ -89,7 +89,7 @@ export async function drawStationsOnMap() {
           station.scoordinate
         );
 
-         const actuallyAvailableVehicles = station.sdatatypes["number-available"]["tmeasurements"][0]["mvalue"]
+        const actuallyAvailableVehicles = station.sdatatypes["number-available"]["tmeasurements"][0]["mvalue"]
 
         const marker = Leaflet.marker(
           [marker_position.lat, marker_position.lng],
@@ -100,15 +100,15 @@ export async function drawStationsOnMap() {
 
         const action = async () => {
           this.searchPlacesFound = {};
-          const details = await requestCarsharingCarsOfStation({
+          const carsOfStation = await requestCarsharingCarsOfStation({
             scode: station.scode,
           });
-          if (details) {
-            this.currentStation = {
-              ...station,
-              lastChange: station.mvalidtime,
-            };
-          }
+          
+          this.currentStation = {
+            ...station,
+            lastChange: station.mvalidtime,
+            cars: carsOfStation
+          };
 
           this.filtersOpen = false;
           this.detailsOpen = true;
@@ -120,7 +120,7 @@ export async function drawStationsOnMap() {
   }
 
   const stations_layer = Leaflet.layerGroup(stations_layer_array, {});
-  
+
 
   this.layer_stations = new Leaflet.MarkerClusterGroup({
     showCoverageOnHover: false,

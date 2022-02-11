@@ -3,12 +3,14 @@ import { html } from "lit-element";
 import { SIDE_MODAL_ROW_TYPES } from "../shared_components/sideModalRow/sideModalRow";
 import { t } from "../translations";
 
+
 export function render_details() {
   const {
     scoordinate,
     sname,
     smetadata,
-    sdatatypes
+    sdatatypes,
+    cars
   } = this.currentStation;
 
   const actuallyAvailableVehicles = sdatatypes["number-available"]["tmeasurements"][0]["mvalue"]
@@ -16,7 +18,16 @@ export function render_details() {
   const availableVehicles = smetadata.availableVehicles;
 
   console.log(this.currentStation);
-  console.log(availableVehicles + "/" +  actuallyAvailableVehicles);
+
+
+  
+  const carDetails = [];
+
+  for (let station in cars.data.CarsharingCar.stations) {
+    carDetails.push(html`<li>${cars.data.CarsharingCar.stations[station].smetadata.brand}</li>`);
+  }
+
+  console.log(carDetails);
 
 
 
@@ -38,8 +49,12 @@ export function render_details() {
       <wc-sidemodal-row
         .type="${SIDE_MODAL_ROW_TYPES.horizontal}"
         .title="avaiable vechicle translate please"
-        .text="${actuallyAvailableVehicles + "/" +  availableVehicles}"
+        .text="${actuallyAvailableVehicles + "/" + availableVehicles}"
       ></wc-sidemodal-row>
+
+      <ul>
+        ${carDetails}
+      </ul>
 
       <wc-sidemodal-row
         .type="${SIDE_MODAL_ROW_TYPES.vertical}"
