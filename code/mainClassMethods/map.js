@@ -77,7 +77,7 @@ export async function drawStationsOnMap() {
         let valid = true;
         if (this.filters.availability) {
           if (
-            station.mvalue > 0
+            station.sdatatypes["number-available"]["tmeasurements"][0]["mvalue"] == 0
           ) {
             valid = false;
           }
