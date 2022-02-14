@@ -5,11 +5,11 @@ import redIcon from "../assets/pins/marker_red.svg";
 import Leaflet from "leaflet";
 
 
-export const getPin = (mvalue) => {
+export const getPin = (value, maxValue) => {
   var pin;
-  if (mvalue === undefined || mvalue <= 0) {
+  if (value === undefined || value <= 0) {
     pin = redIcon;
-  } else if (mvalue == 1) {
+  } else if (value <= maxValue / 2) {
     pin = orangeIcon;
   } else {
     pin = greenIcon;

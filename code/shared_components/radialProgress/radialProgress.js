@@ -34,7 +34,6 @@ export class RadialProgress extends LitElement {
     render() {
         return html`<div class="radialProgress">
       <div >
-        <p class="radialProgress__text">RADIAL</p>
         <div id="drawArea"></div>
       </div>
     </div>`;
@@ -48,15 +47,15 @@ export class RadialProgress extends LitElement {
         this.svg = d3
         .select(element)
         .append('svg')
-        .attr('width', 100)
-        .attr('height', 100)
+        .attr('width', "100%")
+        .attr('height', 150)
         .append('g')
-        .attr('transform', `translate(55, 55)`)
+        .attr('transform', `translate(150, 75)`)
 
         // An arc will be created
-        var greyArc = d3.arc()
-            .innerRadius(39)
-            .outerRadius(44)
+        let greyArc = d3.arc()
+            .innerRadius(60)
+            .outerRadius(70)
             .startAngle(this.minValue)
             .endAngle(Math.PI*2);
 
@@ -66,21 +65,32 @@ export class RadialProgress extends LitElement {
             .attr("fill", "#E1E1E1");
 
         // An arc will be created
-        var grenArc = d3.arc()
-            .innerRadius(38)
-            .outerRadius(45)
+        let arc = d3.arc()
+            .innerRadius(60)
+            .outerRadius(70)
             .startAngle(this.minValue)
             .endAngle(this.value*Math.PI/(this.maxValue/2));
 
+        // calc arc traffic light color
+        let color;
+        if (this.value === undefined || this.value <= 0) {
+            color = "#DC1B22"; //red
+        } else if (this.value <= this.maxValue / 2) {
+            color = "#f28e1e"; //orange
+        } else {
+            color = "#8faf30"; //green
+        }
+
         this.svg.append("path")
             .attr("class", "arc")
-            .attr("d", grenArc)
-            .attr("fill", "#8faf30");
-
+            .attr("d", arc)
+            .attr("fill", color);
+        
+        // center text with available car amount
         this.svg.append('text')
         .attr("text-anchor", "middle")
-        .attr("y", +14)
-        .attr('font-size', '36px')  
+        .attr("y", +13)
+        .attr('font-size', '32px')  
         .text(this.value);
         
     }

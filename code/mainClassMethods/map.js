@@ -90,11 +90,12 @@ export async function drawStationsOnMap() {
         );
 
         const actuallyAvailableVehicles = station.sdatatypes["number-available"]["tmeasurements"][0]["mvalue"]
+        const availableVehicles = station.smetadata.availableVehicles
 
         const marker = Leaflet.marker(
           [marker_position.lat, marker_position.lng],
           {
-            icon: getPin(actuallyAvailableVehicles),
+            icon: getPin(actuallyAvailableVehicles,availableVehicles),
           }
         );
 

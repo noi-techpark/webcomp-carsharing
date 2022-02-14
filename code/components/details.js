@@ -18,7 +18,7 @@ export function render_details() {
   const lastChange = sdatatypes["number-available"]["tmeasurements"][0]["mvalidtime"]
   const availableVehicles = smetadata.availableVehicles;
 
-  
+
   const carDetails = [];
 
   for (let station in cars) {
@@ -33,11 +33,17 @@ export function render_details() {
       <wc-sidemodal-header
         .type="title"
         .tTitle="${sname}"
+        .tSubtitle=${dayjs(lastChange).format("MMM DD, YYYY HH:mm")}
         .closeModalAction="${() => {
-          this.detailsOpen = false;
-        }}"
+      this.detailsOpen = false;
+    }}"
       ></wc-sidemodal-header>
     </div>
+    <wc-radial-progress
+    .minValue=0
+    .maxValue=${availableVehicles}
+    .value=${actuallyAvailableVehicles}
+     ></wc-radial-progress>
     <div>
       <wc-divider></wc-divider>
     </div>
@@ -55,11 +61,7 @@ export function render_details() {
         ${carDetails}
       </ul>
 
-      <wc-radial-progress
-        .minValue=0
-        .maxValue=${availableVehicles}
-        .value=${actuallyAvailableVehicles}
-      ></wc-radial-progress>
+
 
       <wc-sidemodal-row
         .type="${SIDE_MODAL_ROW_TYPES.vertical}"

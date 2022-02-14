@@ -48,6 +48,7 @@
     margin-top: 12px;
     display: flex;
     align-items: center;
+    justify-content: center;
     div {
       display: flex;
       align-items: center;
@@ -67,6 +68,8 @@
       @include MixinParagraphRegular;
       color: $gray-500;
       margin: 8px 0 0 0;
+      display: flex;
+      justify-content: center;
     }
 
     .tOptionalLink {
