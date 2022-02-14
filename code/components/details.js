@@ -22,7 +22,8 @@ export function render_details() {
   const height = 150;
 
   const swidth = 80;
-  const sheight = 40;
+  const sheight = 50;
+  const fontSize = 14;
 
   let carByBrands = {};
   const carDetails = [];
@@ -56,6 +57,7 @@ export function render_details() {
     .width=${swidth}
     .height=${sheight}
     .text=${brandName}
+    .fontSize=${fontSize}
      ></wc-radial-progress>`);
   }
 

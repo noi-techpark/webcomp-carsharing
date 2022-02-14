@@ -12,6 +12,7 @@ export class RadialProgress extends LitElement {
         this.value = 0;
         this.width = 0;
         this.height = 0;
+        this.fontSize = 32;
         this.text = '';
     }
 
@@ -28,6 +29,7 @@ export class RadialProgress extends LitElement {
             value: { type: Number },
             width: { type: Number },
             height: { type: Number },
+            fontSize: { type: Number },
             text: { type: String },
             svg: { type: Object },
         };
@@ -37,8 +39,8 @@ export class RadialProgress extends LitElement {
     render() {
 
         return html`<div class="radialProgress">
-      <div >
-        <div id="drawArea"></div>
+      <div class="radialProgress__drawArea">
+        <div id="drawArea" ></div>
             ${this.text ? html`<div><p class="brandName">${this.text}</p></div>` : ''}
       </div>
     </div>`;
@@ -103,8 +105,8 @@ export class RadialProgress extends LitElement {
             // center text with available car amount
             this.svg.append('text')
                 .attr("text-anchor", "middle")
-                .attr("y", +12)
-                .attr('font-size', '32px')
+                .attr("y", this.fontSize/3)
+                .attr('font-size', this.fontSize+'px')
                 .text(this.value);
         }
 
