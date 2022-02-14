@@ -53,22 +53,33 @@ export class RadialProgress extends LitElement {
         .append('g')
         .attr('transform', `translate(55, 55)`)
 
-
         // An arc will be created
-        var arc = d3.arc()
-            .innerRadius(38)
-            .outerRadius(45)
-            .startAngle(0)
-            .endAngle(this.value*Math.PI/2);
+        var greyArc = d3.arc()
+            .innerRadius(39)
+            .outerRadius(44)
+            .startAngle(this.minValue)
+            .endAngle(Math.PI*2);
 
         this.svg.append("path")
             .attr("class", "arc")
-            .attr("d", arc)
+            .attr("d", greyArc)
+            .attr("fill", "#E1E1E1");
+
+        // An arc will be created
+        var grenArc = d3.arc()
+            .innerRadius(38)
+            .outerRadius(45)
+            .startAngle(this.minValue)
+            .endAngle(this.value*Math.PI/(this.maxValue/2));
+
+        this.svg.append("path")
+            .attr("class", "arc")
+            .attr("d", grenArc)
             .attr("fill", "#8faf30");
 
         this.svg.append('text')
         .attr("text-anchor", "middle")
-        .attr("y", +12)
+        .attr("y", +14)
         .attr('font-size', '36px')  
         .text(this.value);
         

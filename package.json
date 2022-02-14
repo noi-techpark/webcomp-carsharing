@@ -7,7 +7,7 @@
     "staging": "webpack --config ./webpack.staging.js"
   },
   "dependencies": {
-    "chart.js": "^2.9.4",
+    "d3": "^7.3.0",
     "dayjs": "^1.9.6",
     "leaflet": "^1.7.1",
     "leaflet.markercluster": "^1.4.1",

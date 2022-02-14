@@ -18,9 +18,6 @@ export function render_details() {
   const lastChange = sdatatypes["number-available"]["tmeasurements"][0]["mvalidtime"]
   const availableVehicles = smetadata.availableVehicles;
 
-  console.log(this.currentStation);
-
-
   
   const carDetails = [];
 
@@ -30,7 +27,6 @@ export function render_details() {
     carDetails.push(html`<li>${brandName} : ${availability}</li>`);
   }
 
-  console.log(carDetails);
 
   return html` <div class="details">
     <div class="header">
