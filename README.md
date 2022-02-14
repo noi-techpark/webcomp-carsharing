@@ -168,7 +168,7 @@ npm install
 Build and start the project:
 
 ```bash
-yarn start
+npm start
 ```
 
 The application will be served and can be accessed at [http://localhost:8080](http://localhost:8080).
@@ -187,7 +187,7 @@ npm run lint
 To create the distributable files, execute the following command:
 
 ```bash
-yarn build
+npm build
 ```
 
 ## Docker environment
@@ -250,11 +250,11 @@ If you'd like to contribute, please follow the following instructions:
 
 - Fork the repository.
 
-- Checkout a topic branch from the `development` branch.
+- Checkout a topic branch from the `main` branch.
 
 - Make sure the tests are passing.
 
-- Create a pull request against the `development` branch.
+- Create a pull request against the `main` branch.
 
 A more detailed description can be found here: [https://github.com/noi-techpark/documentation/blob/master/contributors.md](https://github.com/noi-techpark/documentation/blob/master/contributors.md).
 
