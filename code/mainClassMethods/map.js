@@ -113,6 +113,7 @@ export async function drawStationsOnMap() {
 
           this.filtersOpen = false;
           this.detailsOpen = true;
+
         };
 
         marker.on("mousedown", action);

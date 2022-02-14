@@ -39,35 +39,18 @@ export function render_details() {
     }}"
       ></wc-sidemodal-header>
     </div>
+    <div>
+     <wc-divider></wc-divider>
+    </div>
     <wc-radial-progress
     .minValue=0
     .maxValue=${availableVehicles}
     .value=${actuallyAvailableVehicles}
      ></wc-radial-progress>
-    <div>
-      <wc-divider></wc-divider>
-    </div>
-    <div>
-      <div>
-        <p class="caption">${t["details"][this.language]}</p>
-      </div>
-      <wc-sidemodal-row
-        .type="${SIDE_MODAL_ROW_TYPES.horizontal}"
-        .title="avaiable vechicle translate please"
-        .text="${actuallyAvailableVehicles + "/" + availableVehicles}"
-      ></wc-sidemodal-row>
 
       <ul>
         ${carDetails}
       </ul>
-
-
-
-      <wc-sidemodal-row
-        .type="${SIDE_MODAL_ROW_TYPES.vertical}"
-        .title="${t["lastUpdate"][this.language]}"
-        .text="${dayjs(lastChange).format("DD/MM/YYYY HH:mm")}"
-      ></wc-sidemodal-row>
 
       <div>
         <a href="https://booking.carsharing.bz.it" target="_blank">${t["bookCar"][this.language]}</p>
