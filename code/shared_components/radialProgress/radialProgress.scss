@@ -1,0 +1,18 @@
+@import '../baseline/colors.scss';
+
+.radialProgress {
+  padding: 8px 16px;
+
+
+  .radialProgress__text {
+      margin: 0;
+      a {
+        color: $green-200;
+      }
+      p,
+      ul {
+        margin-top: 0;
+        margin-bottom: 4px;
+      }
+    }
+}

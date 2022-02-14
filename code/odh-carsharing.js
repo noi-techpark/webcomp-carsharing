@@ -25,6 +25,7 @@ import "./shared_components/searchBar/searchBar";
 import "./shared_components/sideModalHeader/sideModalHeader";
 import "./shared_components/sideModalRow/sideModalRow";
 import "./shared_components/sideModalTabs/sideModalTabs";
+import "./shared_components/radialProgress/radialProgress";
 import "./shared_components/tag/tag";
 import { t } from "./translations";
 import { isMobile, LANGUAGES } from "./utils";

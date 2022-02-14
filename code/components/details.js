@@ -4,6 +4,7 @@ import { SIDE_MODAL_ROW_TYPES } from "../shared_components/sideModalRow/sideModa
 import { t } from "../translations";
 
 
+
 export function render_details() {
   const {
     scoordinate,
@@ -31,14 +32,14 @@ export function render_details() {
 
   console.log(carDetails);
 
-
-
   return html` <div class="details">
     <div class="header">
       <wc-sidemodal-header
         .type="title"
         .tTitle="${sname}"
-
+        .closeModalAction="${() => {
+          this.detailsOpen = false;
+        }}"
       ></wc-sidemodal-header>
     </div>
     <div>
@@ -57,6 +58,12 @@ export function render_details() {
       <ul>
         ${carDetails}
       </ul>
+
+      <wc-radial-progress
+        .minValue=0
+        .maxValue=${availableVehicles}
+        .value=${actuallyAvailableVehicles}
+      ></wc-radial-progress>
 
       <wc-sidemodal-row
         .type="${SIDE_MODAL_ROW_TYPES.vertical}"
