@@ -18,13 +18,39 @@ export function render_details() {
   const lastChange = sdatatypes["number-available"]["tmeasurements"][0]["mvalidtime"]
   const availableVehicles = smetadata.availableVehicles;
 
+  const width = 300;
+  const height = 150;
 
+  const swidth = 80;
+  const sheight = 40;
+
+  let carByBrands = {};
   const carDetails = [];
 
   for (let station in cars) {
     let brandName = cars[station].smetadata.brand;
-    let availability = cars[station]["sdatatypes"]["availability"]["tmeasurements"][0]["mvalue"] == 0 ? "available" : "not available";
-    carDetails.push(html`<li>${brandName} : ${availability}</li>`);
+    let availability = cars[station]["sdatatypes"]["availability"]["tmeasurements"][0]["mvalue"] === 0 ? 1 : 0;
+    if(brandName in carByBrands){
+      carByBrands[brandName] += availability;
+    } else {
+      carByBrands[brandName] = 0;
+      carByBrands[brandName] += availability;
+    }
+  }
+
+  console.log(carByBrands);
+
+  for (let key in carByBrands) {
+    let brandName = key;
+    let availability = carByBrands[key];
+    carDetails.push(html`<wc-radial-progress
+    .minValue=0
+    .maxValue=2
+    .value=${availability}
+    .width=${swidth}
+    .height=${sheight}
+    .text=${brandName}
+     ></wc-radial-progress>`);
   }
 
 
@@ -46,11 +72,11 @@ export function render_details() {
     .minValue=0
     .maxValue=${availableVehicles}
     .value=${actuallyAvailableVehicles}
+    .width=${width}
+    .height=${height}
      ></wc-radial-progress>
 
-      <ul>
         ${carDetails}
-      </ul>
 
       <div>
         <a href="https://booking.carsharing.bz.it" target="_blank">${t["bookCar"][this.language]}</p>

@@ -10,6 +10,8 @@ export class RadialProgress extends LitElement {
         this.maxValue = 1;
         this.minValue = 0;
         this.value = 0;
+        this.width = 0;
+        this.height = 0;
         this.text = '';
     }
 
@@ -24,17 +26,20 @@ export class RadialProgress extends LitElement {
             minValue: { type: Number },
             maxValue: { type: Number },
             value: { type: Number },
+            width: { type: Number },
+            height: { type: Number },
             text: { type: String },
-            draw: { type: Function },
             svg: { type: Object },
         };
     }
 
 
     render() {
+
         return html`<div class="radialProgress">
       <div >
         <div id="drawArea"></div>
+            ${this.text ? html`<div><p class="brandName">${this.text}</p></div>` : ''}
       </div>
     </div>`;
     }
@@ -50,19 +55,21 @@ export class RadialProgress extends LitElement {
             //remove svg before adding new one
             d3.select(element).select('svg').remove();
 
+            console.log(window.innerWidth)
+
 
             this.svg = d3
                 .select(element)
                 .append('svg')
-                .attr('width', "100%")
-                .attr('height', 150)
+                .attr('width', this.width)
+                .attr('height', this.height)
                 .append('g')
-                .attr('transform', `translate(150, 75)`)
+                .attr('transform', 'translate(' + this.width / 2 + ', ' + this.height / 2 + ')')
 
             // An arc will be created
             let greyArc = d3.arc()
-                .innerRadius(60)
-                .outerRadius(70)
+                .innerRadius((this.height / 2) - (this.height / 10))
+                .outerRadius((this.height / 2) - (this.height / 6))
                 .startAngle(this.minValue)
                 .endAngle(Math.PI * 2);
 
@@ -73,8 +80,8 @@ export class RadialProgress extends LitElement {
 
             // An arc will be created
             let arc = d3.arc()
-                .innerRadius(60)
-                .outerRadius(70)
+                .innerRadius((this.height / 2) - (this.height / 10))
+                .outerRadius((this.height / 2) - (this.height / 6))
                 .startAngle(this.minValue)
                 .endAngle(this.value * Math.PI / (this.maxValue / 2));
 
@@ -100,7 +107,6 @@ export class RadialProgress extends LitElement {
                 .attr('font-size', '32px')
                 .text(this.value);
         }
-
 
     }
 }
