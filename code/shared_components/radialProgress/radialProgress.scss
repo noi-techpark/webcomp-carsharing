@@ -19,5 +19,12 @@
   .radialProgress__drawArea {
     display: flex;
     text-align: center;
+    justify-content: center;
+  }
+
+  .radialProgress__drawArea_cars {
+    display: flex;
+    text-align: center;
+    justify-content: left;
   }
 }

@@ -39,7 +39,7 @@ export class RadialProgress extends LitElement {
     render() {
 
         return html`<div class="radialProgress">
-      <div class="radialProgress__drawArea">
+      <div class="${this.text ? 'radialProgress__drawArea_cars' : 'radialProgress__drawArea'}">
         <div id="drawArea" ></div>
             ${this.text ? html`<div><p class="brandName">${this.text}</p></div>` : ''}
       </div>
