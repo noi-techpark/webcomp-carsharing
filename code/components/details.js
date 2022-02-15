@@ -7,16 +7,15 @@ import { t } from "../translations";
 
 export function render_details() {
   const {
-    scoordinate,
-    sname,
-    smetadata,
-    sdatatypes,
-    cars
+    pcoordinate,
+    pname,
+    cars,
+    availability
   } = this.currentStation;
 
-  const actuallyAvailableVehicles = sdatatypes["number-available"]["tmeasurements"][0]["mvalue"]
-  const lastChange = sdatatypes["number-available"]["tmeasurements"][0]["mvalidtime"]
-  const availableVehicles = smetadata.availableVehicles;
+  const actuallyAvailableVehicles = availability
+  const lastChange = cars[0]["sdatatypes"]["availability"]["tmeasurements"][0]["mvalidtime"]
+  const availableVehicles = cars.length;
 
   const width = 300;
   const height = 150;
@@ -26,7 +25,7 @@ export function render_details() {
   const fontSize = 14;
 
   const bookCarUrl = 'https://booking.carsharing.bz.it';
-  const directionsrUrl = 'http://www.google.com/maps/place/'+ scoordinate.y+ ',' + scoordinate.x;
+  const directionsrUrl = 'http://www.google.com/maps/place/'+ pcoordinate.y+ ',' + pcoordinate.x;
 
 
   let carByBrands = {};
@@ -47,7 +46,6 @@ export function render_details() {
     }
   }
 
-  console.log(carByBrands);
 
   for (let key in carByBrands) {
     let brandName = key;
@@ -70,7 +68,7 @@ export function render_details() {
     <div class="header">
       <wc-sidemodal-header
         .type="title"
-        .tTitle="${sname}"
+        .tTitle="${pname}"
         .tSubtitle=${dayjs(lastChange).format("MMM DD, YYYY HH:mm")}
         .closeModalAction="${() => {
       this.detailsOpen = false;

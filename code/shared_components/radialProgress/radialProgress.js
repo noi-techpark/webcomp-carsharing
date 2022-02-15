@@ -57,9 +57,6 @@ export class RadialProgress extends LitElement {
             //remove svg before adding new one
             d3.select(element).select('svg').remove();
 
-            console.log(window.innerWidth)
-
-
             this.svg = d3
                 .select(element)
                 .append('svg')

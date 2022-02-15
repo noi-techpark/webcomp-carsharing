@@ -4,8 +4,7 @@ import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import user__marker from "../assets/user.svg";
 import {
-  requestCarsharingStations,
-  requestCarsharingCarsOfStation,
+  getFormattedCarsharingData
 } from "../api/carsharingStations";
 import { getLatLongFromStationDetail } from "../utils";
 import { getPin } from "./utils";
@@ -68,16 +67,17 @@ export function drawUserOnMap() {
 export async function drawStationsOnMap() {
   const stations_layer_array = [];
 
-  const carsharingStations = await requestCarsharingStations();
+  let data = await getFormattedCarsharingData();
 
-  if (carsharingStations) {
-    Object.values(carsharingStations.data.CarsharingStation.stations)
+
+  if (data.stations) {
+    Object.values(data.stations)
       .filter((station) => {
         // Use filters on all retrived stations
         let valid = true;
         if (this.filters.availability) {
           if (
-            station.sdatatypes["number-available"]["tmeasurements"][0]["mvalue"] == 0
+            station.sdatatypes["availability"] == 0
           ) {
             valid = false;
           }
@@ -86,29 +86,24 @@ export async function drawStationsOnMap() {
       })
       .map((station) => {
         const marker_position = getLatLongFromStationDetail(
-          station.scoordinate
+          station.pcoordinate
         );
 
-        const actuallyAvailableVehicles = station.sdatatypes["number-available"]["tmeasurements"][0]["mvalue"]
-        const availableVehicles = station.smetadata.availableVehicles
+        const actuallyAvailableVehicles = station.availability
+        const availableVehicles = station.pmetadata.availableVehicles
 
         const marker = Leaflet.marker(
           [marker_position.lat, marker_position.lng],
           {
-            icon: getPin(actuallyAvailableVehicles,availableVehicles),
+            icon: getPin(actuallyAvailableVehicles, availableVehicles),
           }
         );
 
         const action = async () => {
           this.searchPlacesFound = {};
-          const carsOfStation = await requestCarsharingCarsOfStation({
-            scode: station.scode,
-          });
-          
+
           this.currentStation = {
-            ...station,
-            lastChange: station.mvalidtime,
-            cars: carsOfStation.data.CarsharingCar.stations
+            ...station
           };
 
           this.filtersOpen = false;
