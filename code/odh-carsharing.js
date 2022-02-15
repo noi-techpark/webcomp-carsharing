@@ -16,6 +16,7 @@ import {
 } from "./mainClassMethods/map";
 import { observedProperties } from "./observedProperties";
 import "./shared_components/button/button";
+import "./shared_components/detailButton/detailButton";
 import "./shared_components/checkBox/checkBox";
 import "./shared_components/divider/divider";
 import "./shared_components/dropdown/dropdown";

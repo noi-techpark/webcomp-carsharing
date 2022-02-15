@@ -90,18 +90,21 @@ export function render_details() {
         ${carDetails}
 
 
+    <div>
+      <wc-detail-button @click="${() => {
+        window.open(bookCarUrl, '_blank');
+      }}"
+      .text=${t["bookCar"][this.language]}
+      ></wc-detail-button>
+    </div>
 
-    <wc-button @click="${() => {
-      window.open(bookCarUrl, '_blank');
-    }}"
-    .content=${t["bookCar"][this.language]}
-    ></wc-button>
-
-    <wc-button @click="${() => {
-      window.open(directionsrUrl, '_blank');
-    }}"
-    .content=${t["directions"][this.language]}
-    ></wc-button>
+    <div>
+      <wc-detail-button @click="${() => {
+        window.open(directionsrUrl, '_blank');
+      }}"
+      .text=${t["directions"][this.language]}
+      ></wc-detail-button>
+    </div>
 
     </div>
   </div>`;

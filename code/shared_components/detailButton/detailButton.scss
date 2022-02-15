@@ -1,0 +1,19 @@
+
+.detailButton {
+    display:block;
+    position:relative;
+    height:55px;
+    background-image:url('../../assets/Button.svg');
+    background-position:0;
+    background-size:100%;
+    background-repeat:no-repeat;
+    font-size:20px;
+    margin:10px;
+    color:#000;
+    line-height:100%;
+    vertical-align:middle;
+    clear:both;
+  }
+  .detailButton>div{
+    padding:18px;
+}
