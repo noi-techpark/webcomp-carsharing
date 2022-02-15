@@ -23,12 +23,14 @@ export class BaseCarsharing extends LitElement {
     this.hereMapsQuery = "";
 
     this.currentStation = {};
+    this.data = {};
     this.detailsOpen = false;
     this.filtersOpen = false;
 
     this.filters = {
       radius: 0,
       availability: false,
+      brandNames: {}
     };
 
     this.firstLoad = true;

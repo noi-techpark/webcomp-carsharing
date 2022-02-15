@@ -10,6 +10,9 @@ import { render_filters } from "./components/filters";
 import { render__mapControls } from "./components/mapControls";
 import { render_searchPlaces } from "./components/searchPlaces";
 import {
+  getFormattedCarsharingData
+} from "./api/carsharingStations";
+import {
   drawStationsOnMap,
   drawUserOnMap,
   initializeMap,
@@ -73,6 +76,12 @@ class Carsharing extends BaseCarsharing {
   async firstUpdated() {
     initializeMap.bind(this)();
     drawUserOnMap.bind(this)();
+
+    this.data = await getFormattedCarsharingData();
+    for(let brandName in this.data.brandNames){
+        this.filters[brandName] = true;
+    }
+    this.defaultFilters = {...this.filters}
     await drawStationsOnMap.bind(this)();
 
     this.isLoading = false;

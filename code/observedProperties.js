@@ -9,6 +9,8 @@ export const observedProperties = {
 
   isLoading: { type: Boolean },
   filters: { type: Object },
+  defaultFilters: { type: Object },
+
 
   hereMapsQuery: { type: String },
   searchPlacesFound: { type: Array },

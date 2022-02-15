@@ -7,6 +7,28 @@ export function render_filters() {
     filtersNumber = filtersNumber + 1;
   }
 
+  let brandNameCheckboxes = [];
+
+  for (let brandName in this.data.brandNames) {
+
+    if(!this.filters[brandName]){
+      filtersNumber++;
+    }
+
+    brandNameCheckboxes.push(html`<div>
+    <div class="options_container">
+      <wc-checkbox
+        .value="${this.filters[brandName]}"
+        .action="${({ value }) => {
+          this.filters = { ...this.filters, [brandName]: value };
+        }}"
+        .label="${brandName}"
+        .name="availability"
+      ></wc-checkbox>
+    </div>
+  </div>`);
+  }
+
   return html` <div class="filters">
     <div class="header">
       <wc-sidemodal-header
@@ -16,7 +38,7 @@ export function render_filters() {
         ]}"
         .fCancelFiltersText="${t["cancelFilters"][this.language]}"
         .fCancelFiltersAction="${() => {
-          this.filters = { ...this.filters, availability: false };
+          this.filters = { ...this.defaultFilters};
         }}"
         .closeModalAction="${() => {
           this.filtersOpen = false;
@@ -42,6 +64,12 @@ export function render_filters() {
           ></wc-checkbox>
         </div>
       </div>
+      
+      <div>
+        <p class="caption">${t["availability"][this.language]}</p>
+        ${brandNameCheckboxes}
+      </div>
+
     </div>
   </div>`;
 }

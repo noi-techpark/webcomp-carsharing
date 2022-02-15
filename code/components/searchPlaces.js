@@ -100,6 +100,12 @@ export function render_searchPlaces() {
     filtersNumber = filtersNumber + 1;
   }
 
+  for (let brandName in this.data.brandNames) {
+    if(!this.filters[brandName]){
+      filtersNumber++;
+    }
+  }
+
   const checkIfPlacesFound = (results) => {
     const keys = Object.keys(results);
     for (let i = 0; i < keys.length; i++) {

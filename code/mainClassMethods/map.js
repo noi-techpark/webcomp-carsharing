@@ -3,9 +3,6 @@ import leaflet_mrkcls from "leaflet.markercluster";
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import user__marker from "../assets/user.svg";
-import {
-  getFormattedCarsharingData
-} from "../api/carsharingStations";
 import { getLatLongFromStationDetail } from "../utils";
 import { getPin } from "./utils";
 
@@ -66,22 +63,30 @@ export function drawUserOnMap() {
 
 export async function drawStationsOnMap() {
   const stations_layer_array = [];
-
-  let data = await getFormattedCarsharingData();
-
-
-  if (data.stations) {
-    Object.values(data.stations)
+  if (this.data.stations) {
+    Object.values(this.data.stations)
       .filter((station) => {
         // Use filters on all retrived stations
         let valid = true;
         if (this.filters.availability) {
           if (
-            station.sdatatypes["availability"] == 0
+            station.availability == 0
           ) {
             valid = false;
           }
         }
+
+
+        for(let brandName in this.data.brandNames){
+          if (!this.filters[brandName]) {
+            for(let car in station.cars){
+              if(station.cars[car].smetadata.brand === brandName){
+                valid = false;
+              }
+            }
+          }
+        }
+       
         return valid;
       })
       .map((station) => {
