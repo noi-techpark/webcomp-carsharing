@@ -21,7 +21,7 @@ export class Button extends LitElement {
     return {
       type: { type: String },
       content: { type: String },
-      image: { type: String }
+      image: { type: String },
     };
   }
 

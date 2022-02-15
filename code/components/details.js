@@ -25,13 +25,17 @@ export function render_details() {
   const sheight = 50;
   const fontSize = 14;
 
+  const bookCarUrl = 'https://booking.carsharing.bz.it';
+  const directionsrUrl = 'http://www.google.com/maps/place/'+ scoordinate.y+ ',' + scoordinate.x;
+
+
   let carByBrands = {};
   const carDetails = [];
 
   for (let station in cars) {
     let brandName = cars[station].smetadata.brand;
     let availability = cars[station]["sdatatypes"]["availability"]["tmeasurements"][0]["mvalue"] === 0 ? 1 : 0;
-    if(brandName in carByBrands){
+    if (brandName in carByBrands) {
       carByBrands[brandName]["availability"] += availability;
       carByBrands[brandName]["maxAvailability"] += 1;
 
@@ -77,7 +81,6 @@ export function render_details() {
      <wc-divider></wc-divider>
     </div>
     <wc-radial-progress
-    .minValue=0
     .maxValue=${availableVehicles}
     .value=${actuallyAvailableVehicles}
     .width=${width}
@@ -86,13 +89,19 @@ export function render_details() {
 
         ${carDetails}
 
-      <div>
-        <a href="https://booking.carsharing.bz.it" target="_blank">${t["bookCar"][this.language]}</p>
-      </div>
 
-      <div v-if>
-      <a href="http://www.google.com/maps/place/${scoordinate.y},${scoordinate.x}" target="_blank">${t["directions"][this.language]}</p>
-    </div>
+
+    <wc-button @click="${() => {
+      window.open(bookCarUrl, '_blank');
+    }}"
+    .content=${t["bookCar"][this.language]}
+    ></wc-button>
+
+    <wc-button @click="${() => {
+      window.open(directionsrUrl, '_blank');
+    }}"
+    .content=${t["directions"][this.language]}
+    ></wc-button>
 
     </div>
   </div>`;
