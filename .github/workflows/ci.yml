@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: noi-techpark/github-actions/npm-build@v2
         with:
-          build-command: npm build
+          build-command: npm run build
           node-version: ${{env.NODE_VERSION}}
 
       - name: REUSE Compliance Check
