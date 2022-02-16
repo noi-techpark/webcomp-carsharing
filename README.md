@@ -18,8 +18,6 @@ A web component that shows the Carsharing cars status stored in the Open Data Hu
       - [currentLocation](#currentlocation)
       - [zoom](#zoom)
       - [tiles-url](#tiles-url)
-      - [disableDirections](#disabledirections)
-      - [disableParkingForecast](#disableparkingforecast)
   - [Getting started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Source code](#source-code)
@@ -41,7 +39,7 @@ A web component that shows the Carsharing cars status stored in the Open Data Hu
 
 ## Usage
 
-Include the webcompscript file `dist/odh-parking.js` in your HTML and define the web component like this:
+Include the webcompscript file `dist/odh-carsharing.js` in your HTML and define the web component like this:
 
 ```html
 <odh-carsharing
@@ -52,7 +50,6 @@ Include the webcompscript file `dist/odh-parking.js` in your HTML and define the
     mapAttribution='Map Tiles &copy; <a href="http://developer.here.com">HERE</a>'
     currentLocation='{ "lat": 46.31, "lng": 11.26 }'
     tiles-url="https://1.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?apiKey="
-    disableDirections
 ></odh-carsharing>
 ```
 
@@ -106,14 +103,6 @@ Set the URL of the API that provides the tiles.
 
 Example: `"https://1.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?apiKey="`
 
-#### disableDirections
-
-If set the road directions are hidden.
-
-#### disableParkingForecast
-
-If set the forecast graph is hidden.
-
 
 ## Getting started
 
@@ -124,7 +113,7 @@ on your local machine for development and testing purposes.
 
 To build the project, the following prerequisites must be met:
 
-- Node 14.15.4 / Yarn 1.22.10
+- Node 14.15.4 / NPM 8.12
 
 For a ready to use Docker environment with all prerequisites already installed
 and prepared, you can check out the [Docker environment](#docker-environment)
@@ -135,13 +124,13 @@ section.
 Get a copy of the repository:
 
 ```bash
-git clone git@github.com:noi-techpark/webcomp-parking.git
+git clone git@github.com:noi-techpark/webcomp-carsharing.git
 ```
 
 Change directory:
 
 ```bash
-cd webcomp-parking/
+cd webcomp-carsharing/
 ```
 
 ### .env
@@ -187,7 +176,7 @@ npm run lint
 To create the distributable files, execute the following command:
 
 ```bash
-npm build
+npm run build
 ```
 
 ## Docker environment
@@ -207,7 +196,7 @@ Install [Docker](https://docs.docker.com/install/) (with Docker Compose) locally
 First, install all dependencies:
 
 ```bash
-docker-compose run --rm app /bin/bash -c "yarn install"
+docker-compose run --rm app /bin/bash -c "npm install"
 ```
 
 ### Start and stop the containers
@@ -235,7 +224,7 @@ docker-compose run --rm app /bin/bash -c "..."
 Some examples are:
 
 ```bash
-docker-compose run --rm app /bin/bash -c "yarn start"
+docker-compose run --rm app /bin/bash -c "npm start"
 ```
 
 ## Information
