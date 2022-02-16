@@ -35,14 +35,14 @@ pipeline {
 				stage("Dependencies") {
 					steps {
 						sh '''
-							npm install
+							yarn
 						'''
 					}
 				}
 				stage("Build") {
 					steps {
 						sh '''
-							npm run build
+							yarn build
 						'''
 					}
 				}
