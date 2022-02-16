@@ -13,10 +13,10 @@
   ],
   "authors": [
     {
-      "name": "Belka",
-      "email": "hello@belkadigital.com",
-      "organization": "Belka",
-      "organizationUrl": "https://belkadigital.com/"
+      "name": "Simon Dalvai",
+      "email": "s.dalvai@noi.bz.it",
+      "organization": "NOI S.p.A",
+      "organizationUrl": "https://noi.bz.it"
     }
   ],
   "image": "wcs-logo.png",
@@ -98,7 +98,7 @@
         "label": "Zoom of the map",
         "required": true,
         "options": {
-          "default": 10
+          "default": 14
         }
       },
       {
