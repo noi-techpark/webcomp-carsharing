@@ -1,7 +1,7 @@
 # Carsharing - Web component
 
 [![REUSE status](https://api.reuse.software/badge/github.com/noi-techpark/webcomp-carsharing)](https://api.reuse.software/info/github.com/noi-techpark/webcomp-carsharing)
-[![CI](https://github.com/noi-techpark/webcomp-carsharing/actions/workflows/ci.yml/badge.svg)](https://github.com/noi-techpark/webcomp-carsharing/actions/workflows/ci.yml)
+[![CI](https://github.com/noi-techpark/webcomp-carsharing/actions/workflows/main.yml/badge.svg)](https://github.com/noi-techpark/webcomp-carsharing/actions/workflows/main.yml)
 
 A web component that shows the Carsharing cars status stored in the Open Data Hub.
 
@@ -235,17 +235,7 @@ For support, please contact [help@opendatahub.bz.it](mailto:help@opendatahub.bz.
 
 ### Contributing
 
-If you'd like to contribute, please follow the following instructions:
-
-- Fork the repository.
-
-- Checkout a topic branch from the `main` branch.
-
-- Make sure the tests are passing.
-
-- Create a pull request against the `main` branch.
-
-A more detailed description can be found here: [https://github.com/noi-techpark/documentation/blob/master/contributors.md](https://github.com/noi-techpark/documentation/blob/master/contributors.md).
+If you'd like to contribute, please follow the Contributor Guidelines that can be found at [https://github.com/noi-techpark/odh-docs/wiki/Contributor-Guidelines%3A-Getting-started](https://github.com/noi-techpark/odh-docs/wiki/Contributor-Guidelines%3A-Getting-started).
 
 ### Documentation
 
