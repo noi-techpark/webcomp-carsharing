@@ -1,22 +1,7 @@
 import { BASE_PATH_MOBILITY } from "./config";
 
-
-const requestCarsharingCars = async () => {
-  try {
-    const request = await fetch(
-      `${BASE_PATH_MOBILITY}/tree,node/CarsharingCar/*/latest?where=sactive.eq.true&select=sparent,sdatatypes,sname,smetadata`
-    );
-    if (request.status !== 200) {
-      throw new Error(request.statusText);
-    }
-    return await request.json();
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 // converts in object with stations objects with nested cars instead of cars with nested stations
-// also contains branDnames for filters
+// also contains brandNames for filters
 export const getFormattedCarsharingData = async () => {
   let cars = await requestCarsharingCars();
   cars = cars["data"]["CarsharingCar"]["stations"];
@@ -54,4 +39,32 @@ export const getFormattedCarsharingData = async () => {
   }
 
   return data;
-}
+};
+
+const requestCarsharingCars = async () => {
+  try {
+    const request = await fetch(
+      `${BASE_PATH_MOBILITY}/tree,node/CarsharingCar/*/latest?where=sactive.eq.true&select=sparent,sdatatypes,sname,smetadata`
+    );
+    if (request.status !== 200) {
+      throw new Error(request.statusText);
+    }
+    return await request.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const requestCarsharingCarsOfStation = async ({ scode }) => {
+  try {
+    const request = await fetch(
+      `${BASE_PATH_MOBILITY}/tree,node/CarsharingCar/*/latest?where=sactive.eq.true,pcode.eq."${scode}"&select=smetadata,sdatatypes`
+    );
+    if (request.status !== 200) {
+      throw new Error(request.statusText);
+    }
+    return await request.json();
+  } catch (error) {
+    console.log(error);
+  }
+};

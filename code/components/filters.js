@@ -15,18 +15,19 @@ export function render_filters() {
       filtersNumber++;
     }
 
-    brandNameCheckboxes.push(html`<div>
-    <div class="options_container">
-      <wc-checkbox
-        .value="${this.filters[brandName]}"
-        .action="${({ value }) => {
-          this.filters = { ...this.filters, [brandName]: value };
-        }}"
-        .label="${brandName}"
-        .name="availability"
-      ></wc-checkbox>
-    </div>
-  </div>`);
+    brandNameCheckboxes.push(html`
+    <div>
+      <div class="options_container">
+        <wc-checkbox
+          .value="${this.filters[brandName]}"
+          .action="${({ value }) => {
+            this.filters = { ...this.filters, [brandName]: value };
+          }}"
+          .label="${brandName}"
+          .name="availability"
+        ></wc-checkbox>
+      </div>
+    </div>`);
   }
 
   return html` <div class="filters">

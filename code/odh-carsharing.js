@@ -9,9 +9,7 @@ import { render_details } from "./components/details";
 import { render_filters } from "./components/filters";
 import { render__mapControls } from "./components/mapControls";
 import { render_searchPlaces } from "./components/searchPlaces";
-import {
-  getFormattedCarsharingData
-} from "./api/carsharingStations";
+import { getFormattedCarsharingData } from "./api/carsharingStations";
 import {
   drawStationsOnMap,
   drawUserOnMap,
@@ -69,6 +67,7 @@ class Carsharing extends BaseCarsharing {
     super.disconnectedCallback();
   }
 
+
   async drawMap() {
     drawUserOnMap.bind(this)();
   }
@@ -77,6 +76,7 @@ class Carsharing extends BaseCarsharing {
     initializeMap.bind(this)();
     drawUserOnMap.bind(this)();
 
+    // loads the data from open data hub and sets filters
     this.data = await getFormattedCarsharingData();
     for(let brandName in this.data.brandNames){
         this.filters[brandName] = true;
@@ -91,6 +91,7 @@ class Carsharing extends BaseCarsharing {
   handleChangeTab(id) {
     this.currentTab = id;
   }
+
 
   updated(changedProperties) {
     changedProperties.forEach((oldValue, propName) => {

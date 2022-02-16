@@ -5,6 +5,7 @@ import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import user__marker from "../assets/user.svg";
 import { getLatLongFromStationDetail } from "../utils";
 import { getPin } from "./utils";
+import { requestCarsharingCarsOfStation } from "../api/carsharingStations";
 
 export async function initializeMap() {
   const DefaultIcon = Leaflet.icon({
@@ -76,17 +77,6 @@ export async function drawStationsOnMap() {
           }
         }
 
-
-        for(let brandName in this.data.brandNames){
-          if (!this.filters[brandName]) {
-            for(let car in station.cars){
-              if(station.cars[car].smetadata.brand === brandName){
-                valid = false;
-              }
-            }
-          }
-        }
-
         for(let car in station.cars){
           if (!this.filters[station.cars[car].smetadata.brand]) {
                 valid = false;
@@ -114,6 +104,12 @@ export async function drawStationsOnMap() {
         const action = async () => {
           this.searchPlacesFound = {};
 
+          const carsOfStation = await requestCarsharingCarsOfStation({
+            scode: station.pcode,
+          });
+          
+          station.cars = {...carsOfStation.data.CarsharingCar.stations}
+    
           this.currentStation = {
             ...station
           };
