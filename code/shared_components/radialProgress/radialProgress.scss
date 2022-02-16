@@ -1,9 +1,6 @@
 @import '../baseline/colors.scss';
 
 .radialProgress {
-  padding-left: 16px;
-
-
   .radialProgress__text {
       margin: 0;
       a {
@@ -26,5 +23,6 @@
     display: flex;
     text-align: center;
     justify-content: left;
+    padding-left: 10px;
   }
 }

@@ -18,7 +18,7 @@ export function render_details() {
 
   const availableVehicles = Object.keys(cars).length;
 
-  const width = 300;
+  const width = 180;
   const height = 150;
 
   const swidth = 80;
@@ -84,6 +84,8 @@ export function render_details() {
     .width=${width}
     .height=${height}
      ></wc-radial-progress>
+
+     <div class="detailDescription">${t["availableCars"][this.language]}</div>
 
         ${carDetails}
 

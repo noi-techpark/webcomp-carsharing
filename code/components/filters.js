@@ -67,7 +67,7 @@ export function render_filters() {
       </div>
       
       <div>
-        <p class="caption">${t["availability"][this.language]}</p>
+        <p class="caption">${t["cars"][this.language]}</p>
         ${brandNameCheckboxes}
       </div>
 

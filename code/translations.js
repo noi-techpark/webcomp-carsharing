@@ -14,15 +14,10 @@ export const t = {
     en: "My location",
     de: "Mein Standort",
   },
-  tag__free: {
-    it: "Libero",
-    en: "Free",
-    de: "Frei",
-  },
   directions: {
     it: "Indicazioni stradali",
     en: "Directions",
-    de: "Richtungen",
+    de: "Wegweiser",
   },
   filters: {
     it: "Filtri",
@@ -43,6 +38,16 @@ export const t = {
     it: "DISPONIBILITÀ",
     en: "AVAILABILITY",
     de: "VERFÜGBARKEIT",
+  },
+  availableCars: {
+    it: "Macchine disponibili",
+    en: "Available cars",
+    de: "Verfügbare Fahrzeuge",
+  },
+  cars: {
+    it: "MACCHINE",
+    en: "CARS",
+    de: "FAHRZEUGE",
   },
   onlyShowCarsharingStationsWithAvailableSpots: {
     it: "Mostra solo stazioni con macchine disponibili",
