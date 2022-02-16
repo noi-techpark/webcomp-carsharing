@@ -86,6 +86,13 @@ export async function drawStationsOnMap() {
             }
           }
         }
+
+        for(let car in station.cars){
+          if (!this.filters[station.cars[car].smetadata.brand]) {
+                valid = false;
+                break;
+          }
+        }
        
         return valid;
       })
