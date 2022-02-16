@@ -19,7 +19,7 @@ export function render_details() {
   const availableVehicles = Object.keys(cars).length;
 
   const width = 180;
-  const height = 150;
+  const height = 180;
 
   const swidth = 80;
   const sheight = 50;
