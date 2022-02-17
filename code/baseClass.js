@@ -28,8 +28,7 @@ export class BaseCarsharing extends LitElement {
 
     this.filters = {
       radius: 0,
-      availability: false,
-      brandNames: {}
+      availability: false
     };
 
     this.firstLoad = true;

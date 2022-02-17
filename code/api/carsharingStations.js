@@ -28,6 +28,20 @@ export const requestCarsharingCarsOfStation = async ({ scode }) => {
   }
 };
 
+export const requestCarBrandsOfStations = async () => {
+  try {
+    const request = await fetch(
+      `${BASE_PATH_MOBILITY}/flat,node/CarsharingCar/*/latest?limit=200&select=smetadata.brand,pcode&where=sactive.eq.true&distinct=true`
+    );
+    if (request.status !== 200) {
+      throw new Error(request.statusText);
+    }
+    return await request.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const requestCarsharingCarBrands = async () => {
   try {
     const request = await fetch(

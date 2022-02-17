@@ -76,12 +76,14 @@ class Carsharing extends BaseCarsharing {
     initializeMap.bind(this)();
     drawUserOnMap.bind(this)();
 
+
     // loads brandNames from open data hub and sets filters
     let brandNames = await requestCarsharingCarBrands();
     brandNames = brandNames.data;
 
+
     for(let key in brandNames){
-      let brandName = brandNames[key]["smetadata.brand"]
+      let brandName = brandNames[key]["smetadata.brand"];
       this.filters[brandName] = true;
     }
 

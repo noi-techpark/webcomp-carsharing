@@ -11,7 +11,7 @@ export function render_filters() {
 
   for (let brandName in this.filters) {
 
-    if (brandName != "availability") {
+    if (brandName != "availability" && brandName != "radius") {
       if (!this.filters[brandName]) {
         filtersNumber++;
       }

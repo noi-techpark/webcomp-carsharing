@@ -8,6 +8,7 @@ import { getPin } from "./utils";
 import {
   requestCarsharingStations,
   requestCarsharingCarsOfStation,
+  requestCarBrandsOfStations
 } from "../api/carsharingStations";
 
 export async function initializeMap() {
@@ -69,7 +70,16 @@ export async function drawStationsOnMap() {
   const stations_layer_array = [];
 
   const carsharingStations = await requestCarsharingStations();
-  console.log(carsharingStations);
+
+  const brandsOfStations = await requestCarBrandsOfStations();
+  const brandsByStations = {};
+  for (let b of brandsOfStations.data) {
+    if (!(b.pcode in brandsByStations)) {
+      brandsByStations[b.pcode] = []
+    }
+    brandsByStations[b.pcode].push(b["smetadata.brand"])
+  }
+
 
 
   if (carsharingStations) {
@@ -79,19 +89,22 @@ export async function drawStationsOnMap() {
         let valid = true;
         if (this.filters.availability) {
           if (
-            station.availability == 0
+            station.mvalue === 0
           ) {
             valid = false;
           }
         }
 
-        // for(let car in station.cars){
-        //   if (!this.filters[station.cars[car].smetadata.brand]) {
-        //         valid = false;
-        //         break;
-        //   }
-        // }
-       
+        if (valid) {
+          valid = false;
+          for (let brand of brandsByStations[station.scode]) {
+            if (this.filters[brand] === true) {
+              valid = true;
+              break;
+            }
+          }
+        }
+
         return valid;
       })
       .map((station) => {
@@ -115,7 +128,7 @@ export async function drawStationsOnMap() {
           const carsOfStation = await requestCarsharingCarsOfStation({
             scode: station.scode,
           });
-          
+
           this.currentStation = {
             ...station,
             cars: carsOfStation.data

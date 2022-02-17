@@ -96,9 +96,12 @@ export function render_searchPlaces() {
   };
 
   let filtersNumber = 0;
+  if (this.filters.availability) {
+    filtersNumber++;
+  }
 
   for (let filter in this.filters) {
-    if(!this.filters[filter]){
+    if(filter != "radius" && filter != "availability" && !this.filters[filter]){
       filtersNumber++;
     }
   }
