@@ -7,16 +7,17 @@ import { t } from "../translations";
 
 export function render_details() {
   const {
-    pcoordinate,
-    pname,
-    cars,
-    availability
+    scoordinate,
+    sname,
+    smetadata,
+    mvalue,
+    mvalidtime,
+    cars
   } = this.currentStation;
 
-  const actuallyAvailableVehicles = availability
-  const lastChange = cars[Object.keys(cars)[0]]["sdatatypes"]["availability"]["tmeasurements"][0]["mvalidtime"]
-
-  const availableVehicles = Object.keys(cars).length;
+  const actuallyAvailableVehicles = mvalue;
+  const lastChange = mvalidtime;
+  const availableVehicles = smetadata.availableVehicles;
 
   const width = 150;
   const height = 150;
@@ -26,7 +27,7 @@ export function render_details() {
   const fontSize = 14;
 
   const bookCarUrl = 'https://booking.carsharing.bz.it';
-  const directionsrUrl = 'http://www.google.com/maps/place/'+ pcoordinate.y+ ',' + pcoordinate.x;
+  const directionsrUrl = 'http://www.google.com/maps/place/'+ scoordinate.y+ ',' + scoordinate.x;
 
 
   let carByBrands = {};
@@ -34,7 +35,7 @@ export function render_details() {
 
   for (let station in cars) {
     let brandName = cars[station].smetadata.brand;
-    let available = cars[station]["sdatatypes"]["availability"]["tmeasurements"][0]["mvalue"] === 0 ? 1 : 0;
+    let available = cars[station].mvalue === 0 ? 1 : 0;
     if (brandName in carByBrands) {
       carByBrands[brandName]["availability"] += available;
       carByBrands[brandName]["maxAvailability"] += 1;
@@ -68,7 +69,7 @@ export function render_details() {
     <div class="header">
       <wc-sidemodal-header
         .type="title"
-        .tTitle="${pname}"
+        .tTitle="${sname}"
         .tSubtitle=${dayjs(lastChange).format("MMM DD, YYYY HH:mm")}
         .closeModalAction="${() => {
       this.detailsOpen = false;

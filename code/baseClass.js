@@ -23,7 +23,6 @@ export class BaseCarsharing extends LitElement {
     this.hereMapsQuery = "";
 
     this.currentStation = {};
-    this.data = {};
     this.detailsOpen = false;
     this.filtersOpen = false;
 

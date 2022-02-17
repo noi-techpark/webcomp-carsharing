@@ -9,7 +9,7 @@ import { render_details } from "./components/details";
 import { render_filters } from "./components/filters";
 import { render__mapControls } from "./components/mapControls";
 import { render_searchPlaces } from "./components/searchPlaces";
-import { getFormattedCarsharingData } from "./api/carsharingStations";
+import { requestCarsharingCarBrands } from "./api/carsharingStations";
 import {
   drawStationsOnMap,
   drawUserOnMap,
@@ -76,11 +76,15 @@ class Carsharing extends BaseCarsharing {
     initializeMap.bind(this)();
     drawUserOnMap.bind(this)();
 
-    // loads the data from open data hub and sets filters
-    this.data = await getFormattedCarsharingData();
-    for(let brandName in this.data.brandNames){
-        this.filters[brandName] = true;
+    // loads brandNames from open data hub and sets filters
+    let brandNames = await requestCarsharingCarBrands();
+    brandNames = brandNames.data;
+
+    for(let key in brandNames){
+      let brandName = brandNames[key]["smetadata.brand"]
+      this.filters[brandName] = true;
     }
+
     this.defaultFilters = {...this.filters}
     await drawStationsOnMap.bind(this)();
 

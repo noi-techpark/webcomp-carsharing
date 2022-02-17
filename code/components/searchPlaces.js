@@ -96,12 +96,9 @@ export function render_searchPlaces() {
   };
 
   let filtersNumber = 0;
-  if (this.filters.availability) {
-    filtersNumber = filtersNumber + 1;
-  }
 
-  for (let brandName in this.data.brandNames) {
-    if(!this.filters[brandName]){
+  for (let filter in this.filters) {
+    if(!this.filters[filter]){
       filtersNumber++;
     }
   }

@@ -9,25 +9,27 @@ export function render_filters() {
 
   let brandNameCheckboxes = [];
 
-  for (let brandName in this.data.brandNames) {
+  for (let brandName in this.filters) {
 
-    if(!this.filters[brandName]){
-      filtersNumber++;
-    }
+    if (brandName != "availability") {
+      if (!this.filters[brandName]) {
+        filtersNumber++;
+      }
 
-    brandNameCheckboxes.push(html`
+      brandNameCheckboxes.push(html`
     <div>
       <div class="options_container">
         <wc-checkbox
           .value="${this.filters[brandName]}"
           .action="${({ value }) => {
-            this.filters = { ...this.filters, [brandName]: value };
-          }}"
+          this.filters = { ...this.filters, [brandName]: value };
+        }}"
           .label="${brandName}"
           .name="availability"
         ></wc-checkbox>
       </div>
     </div>`);
+    }
   }
 
   return html` <div class="filters">
@@ -35,15 +37,15 @@ export function render_filters() {
       <wc-sidemodal-header
         type="filter"
         .fTitle="${filtersNumber ? filtersNumber : ""} ${t["filters"][
-          this.language
-        ]}"
+    this.language
+    ]}"
         .fCancelFiltersText="${t["cancelFilters"][this.language]}"
         .fCancelFiltersAction="${() => {
-          this.filters = { ...this.defaultFilters};
-        }}"
+      this.filters = { ...this.defaultFilters };
+    }}"
         .closeModalAction="${() => {
-          this.filtersOpen = false;
-        }}"
+      this.filtersOpen = false;
+    }}"
       ></wc-sidemodal-header>
     </div>
     <div>
@@ -56,11 +58,11 @@ export function render_filters() {
           <wc-checkbox
             .value="${this.filters.availability}"
             .action="${({ value }) => {
-              this.filters = { ...this.filters, availability: value };
-            }}"
+      this.filters = { ...this.filters, availability: value };
+    }}"
             .label="${t["onlyShowCarsharingStationsWithAvailableSpots"][
-              this.language
-            ]}"
+    this.language
+    ]}"
             .name="availability"
           ></wc-checkbox>
         </div>

@@ -5,7 +5,10 @@ import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import user__marker from "../assets/user.svg";
 import { getLatLongFromStationDetail } from "../utils";
 import { getPin } from "./utils";
-import { requestCarsharingCarsOfStation } from "../api/carsharingStations";
+import {
+  requestCarsharingStations,
+  requestCarsharingCarsOfStation,
+} from "../api/carsharingStations";
 
 export async function initializeMap() {
   const DefaultIcon = Leaflet.icon({
@@ -64,10 +67,15 @@ export function drawUserOnMap() {
 
 export async function drawStationsOnMap() {
   const stations_layer_array = [];
-  if (this.data.stations) {
-    Object.values(this.data.stations)
+
+  const carsharingStations = await requestCarsharingStations();
+  console.log(carsharingStations);
+
+
+  if (carsharingStations) {
+    Object.values(carsharingStations.data)
       .filter((station) => {
-        // Use filters on all retrived stations
+        // Use filters on all retrieved stations
         let valid = true;
         if (this.filters.availability) {
           if (
@@ -77,22 +85,22 @@ export async function drawStationsOnMap() {
           }
         }
 
-        for(let car in station.cars){
-          if (!this.filters[station.cars[car].smetadata.brand]) {
-                valid = false;
-                break;
-          }
-        }
+        // for(let car in station.cars){
+        //   if (!this.filters[station.cars[car].smetadata.brand]) {
+        //         valid = false;
+        //         break;
+        //   }
+        // }
        
         return valid;
       })
       .map((station) => {
         const marker_position = getLatLongFromStationDetail(
-          station.pcoordinate
+          station.scoordinate
         );
 
-        const actuallyAvailableVehicles = station.availability
-        const availableVehicles = station.pmetadata.availableVehicles
+        const actuallyAvailableVehicles = station.mvalue
+        const availableVehicles = station.smetadata.availableVehicles
 
         const marker = Leaflet.marker(
           [marker_position.lat, marker_position.lng],
@@ -105,13 +113,12 @@ export async function drawStationsOnMap() {
           this.searchPlacesFound = {};
 
           const carsOfStation = await requestCarsharingCarsOfStation({
-            scode: station.pcode,
+            scode: station.scode,
           });
           
-          station.cars = {...carsOfStation.data.CarsharingCar.stations}
-    
           this.currentStation = {
-            ...station
+            ...station,
+            cars: carsOfStation.data
           };
 
           this.filtersOpen = false;
