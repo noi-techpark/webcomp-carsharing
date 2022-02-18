@@ -25,9 +25,9 @@ export const t = {
     de: "Filter",
   },
   cancelFilters: {
-    it: "Annulla filtri",
-    en: "Cancel filters",
-    de: "Filter verwerfen",
+    it: "Filtri standard",
+    en: "Standard filters",
+    de: "Standard Filter",
   },
   bookCar: {
     it: "Prenota una macchina",
