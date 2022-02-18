@@ -52,6 +52,7 @@ export function render_details() {
     let brandName = key;
     let available = carByBrands[key]["availability"];
     let maxAvailability = carByBrands[key]["maxAvailability"];
+    const delay = 250;
 
     carDetails.push(html`<wc-radial-progress
     .minValue=0
@@ -61,6 +62,8 @@ export function render_details() {
     .height=${sheight}
     .text=${brandName}
     .fontSize=${fontSize}
+    .delay=${delay}
+    .id=${sname}
      ></wc-radial-progress>`);
   }
 
@@ -84,6 +87,7 @@ export function render_details() {
     .value=${actuallyAvailableVehicles}
     .width=${width}
     .height=${height}
+    .id=${sname}
      ></wc-radial-progress>
 
      <div class="detailDescription">${t["availableCars"][this.language]}</div>
