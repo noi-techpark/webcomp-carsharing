@@ -6,7 +6,7 @@ export const LANGUAGES = {
 };
 
 export const isMobile = () => {
-  return document.body.offsetWidth < 992;
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 };
 
 export function getCurrentPosition(options = {}) {
