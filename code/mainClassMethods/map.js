@@ -144,6 +144,13 @@ export async function drawStationsOnMap() {
       });
   }
 
+  // remove markers before adding new ones
+  this.map.eachLayer(function (layer) {
+    if (layer instanceof L.MarkerClusterGroup) {
+      layer.clearLayers();
+    }
+  });
+
   const stations_layer = Leaflet.layerGroup(stations_layer_array, {});
 
 

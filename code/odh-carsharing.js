@@ -108,19 +108,7 @@ class Carsharing extends BaseCarsharing {
         (propName === "filters" || propName === "language") &&
         !this.firstLoad
       ) {
-        this.map.off();
-        this.map.remove();
-        this.isLoading = true;
-        initializeMap
-          .bind(this)()
-          .then(() => {
-            drawUserOnMap.bind(this)();
-            drawStationsOnMap
-              .bind(this)()
-              .then(() => {
-                this.isLoading = false;
-              });
-          });
+        drawStationsOnMap.bind(this)();
       }
     });
   }
