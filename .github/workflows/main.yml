@@ -36,5 +36,5 @@ jobs:
       - uses: noi-techpark/github-actions/webcomp-push@v2
         with:
           keycloak-secret: ${{secrets.KEYCLOAK_CLIENT_SECRET}}
-          branch-name: $GITHUB_REF_NAME
+          branch-name: ${GITHUB_REF_NAME}
       
