@@ -37,4 +37,5 @@ jobs:
         with:
           keycloak-secret: ${{secrets.KEYCLOAK_CLIENT_SECRET}}
           branch-name: main
+          
       
