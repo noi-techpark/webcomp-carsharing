@@ -3,7 +3,7 @@ Upstream-Name: webcomp-carsharing
 Upstream-Contact: (c) 2021 Peter Moser <p.moser@noi.bz.it>
 Source: https://github.com/noi-techpark/webcomp-carsharing
 
-Files: code/* work/* dist/*.js odh-*.js
+Files: code/* work/* dist/*.js odh-*.js webcompstore-cli/*
 Copyright: (c) 2021 NOI Techpark <info@noi.bz.it>
 License: AGPL-3.0-or-later
 
