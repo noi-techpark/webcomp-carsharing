@@ -4,6 +4,7 @@ import json
 import base64
 from datetime import datetime
 import copy
+import os
 from keycloak import KeycloakOpenID
 
 VERSION = 0.1
@@ -22,15 +23,16 @@ API_URL_PROD = "https://api.webcomponents.opendatahub.bz.it/"
 KEYCLOAK_URL = "https://auth.opendatahub.testingmachine.eu/auth/"
 KEYCLOAK_REALM = "noi"
 KEYCLOAK_CLIENT_ID = "it.bz.opendatahub.webcomponents.api"
+KEYCLOAK_CLIENT_SECRET = os.environ["CLIENT_SECRET"]
 
 api_url = API_URL_DEV
 
 
-def get_token(secret):
+def get_token():
     keycloak_openid = KeycloakOpenID(server_url=KEYCLOAK_URL,
                                      client_id=KEYCLOAK_CLIENT_ID,
                                      realm_name=KEYCLOAK_REALM,
-                                     client_secret_key=secret,
+                                     client_secret_key=KEYCLOAK_CLIENT_SECRET,
                                      verify=True)
 
     return keycloak_openid.token("", "", "client_credentials")["access_token"]
@@ -184,8 +186,6 @@ if __name__ == '__main__':
                         help="Push a webcomponent to the store (branch-name is only for versiontag creation).")
     parser.add_argument('--delete', metavar='UUID',
                         help="Deletes a webcomponent with the give uuid.")
-    parser.add_argument('--secret', metavar='SECRET',
-                        help="Deletes a webcomponent with the give uuid.")
     parser.add_argument(
         '--production', help="Use production URL for API: api.webcomponents.opendatahub.bz.it", action="store_true")
     parser.add_argument(
@@ -208,8 +208,8 @@ if __name__ == '__main__':
         list = get_list()
         print(json.dumps(list, indent=4))
 
-    if(args.push and args.secret):
-        token = get_token(args.secret)
+    if(args.push):
+        token = get_token()
 
         wcs_manifest = get_file_as_json("wcs-manifest.json")
         image = get_file_as_base64("wcs-logo.png")
@@ -230,7 +230,7 @@ if __name__ == '__main__':
                 token, webcomp["uuid"], wcs_manifest, dist_file, webcomp["currentVersion"]["versionTag"], args.push)
 
     if(args.lighthouse):
-        token = get_token(args.secret)
+        token = get_token()
         url = api_url + "admin/webcomponent/refetch-lighthouse"
         headers = {
             "Authorization": "Bearer " + token
@@ -239,7 +239,7 @@ if __name__ == '__main__':
         print("Status Code", response.status_code)
 
     if(args.size):
-        token = get_token(args.secret)
+        token = get_token()
         url = api_url + "admin/webcomponent/recalculate-size"
         headers = {
             "Authorization": "Bearer " + token
@@ -250,7 +250,7 @@ if __name__ == '__main__':
     if(args.delete):
         if not args.yes:
             confirm("deletion ")
-        token = get_token(args.secret)
+        token = get_token()
         url = api_url + "admin/webcomponent/" + args.delete
 
         headers = {

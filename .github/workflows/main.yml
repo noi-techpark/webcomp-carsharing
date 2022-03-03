@@ -38,7 +38,9 @@ jobs:
           python-version: '3.8'
           cache: 'pip'
           cache-dependency-path: '**/requirements.txt'
-      - run: |
+        env:
+           CLIENT_SECRET: ${{secrets.KEYCLOAK_CLIENT_SECRET}}
+        run: |
           pip install -r webcompstore-cli/requirements.txt
-          python3 webcompstore-cli/webcompstore-cli.py --push main --secret ${{secrets.KEYCLOAK_CLIENT_SECRET}}
+          python3 webcompstore-cli/webcompstore-cli.py --push main
       
