@@ -35,6 +35,25 @@ jobs:
 
       - uses: noi-techpark/github-actions/webcomp-push@v2
         with:
-          keycloak-secret: ${{secrets.KEYCLOAK_CLIENT_SECRET}}
+          keycloak-secret: ${{secrets.WCSTORE_CLI_KEYCLOAK_SECRET_TEST}}
           branch-name: main
+
+  deploy-prod:
+    runs-on: ubuntu-20.04
+    if: github.ref == 'refs/heads/prod'
+    needs: test
+    concurrency: deploy-prod
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: noi-techpark/github-actions/npm-build@v2
+        with:
+          build-command: npm run build
+          node-version: ${{env.NODE_VERSION}}
+
+      - uses: noi-techpark/github-actions/webcomp-push@v2
+        with:
+          keycloak-secret: ${{secrets.WCSTORE_CLI_KEYCLOAK_SECRET_PROD}}
+          branch-name: prod
+          production: true
       
