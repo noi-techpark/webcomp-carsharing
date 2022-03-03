@@ -4,28 +4,33 @@ import json
 import base64
 from datetime import datetime
 import copy
-from dotenv import dotenv_values
 from keycloak import KeycloakOpenID
 
 VERSION = 0.1
 
-env = dotenv_values(".env")
 
-API_URL_DEV = env["API_URL_DEV"]
-API_URL_PROD = env["API_URL_PROD"]
-KEYCLOAK_URL = env["KEYCLOAK_URL"]
-KEYCLOAK_REALM = env["KEYCLOAK_REALM"]
-KEYCLOAK_CLIENT_ID = env["KEYCLOAK_CLIENT_ID"]
-KEYCLOAK_CLIENT_SECRET = env["KEYCLOAK_CLIENT_SECRET"]
+# API_URL_DEV = os.getenv("API_URL_DEV")
+# API_URL_PROD = os.getenv("API_URL_PROD")
+# KEYCLOAK_URL = os.getenv("KEYCLOAK_URL")
+# KEYCLOAK_REALM = os.getenv("KEYCLOAK_REALM")
+# KEYCLOAK_CLIENT_ID = os.getenv("KEYCLOAK_CLIENT_ID")
+# KEYCLOAK_CLIENT_SECRET = os.getenv("KEYCLOAK_CLIENT_SECRET")
+
+API_URL_DEV = "https://api.webcomponents.opendatahub.testingmachine.eu/"
+API_URL_PROD = "https://api.webcomponents.opendatahub.bz.it/"
+
+KEYCLOAK_URL = "https://auth.opendatahub.testingmachine.eu/auth/"
+KEYCLOAK_REALM = "noi"
+KEYCLOAK_CLIENT_ID = "it.bz.opendatahub.webcomponents.api"
 
 api_url = API_URL_DEV
 
 
-def get_token():
+def get_token(secret):
     keycloak_openid = KeycloakOpenID(server_url=KEYCLOAK_URL,
                                      client_id=KEYCLOAK_CLIENT_ID,
                                      realm_name=KEYCLOAK_REALM,
-                                     client_secret_key=KEYCLOAK_CLIENT_SECRET,
+                                     client_secret_key=secret,
                                      verify=True)
 
     return keycloak_openid.token("", "", "client_credentials")["access_token"]
@@ -80,7 +85,8 @@ def post_webcomponent_version(token, uuid, wcs_manifest, dist_file, branch_name)
     # wcs_manifest["licenseAgreement"] = None
 
     timestamp = datetime.now()
-    wcs_manifest["versionTag"] = branch_name + "-1-" + timestamp.strftime("%Y%m%dT%H%M")
+    wcs_manifest["versionTag"] = branch_name + \
+        "-1-" + timestamp.strftime("%Y%m%dT%H%M")
     wcs_manifest["releaseTimestamp"] = "2022-03-02T10:05:37.943Z"
     wcs_manifest["distFiles"] = [
         {
@@ -101,12 +107,15 @@ def post_webcomponent_version(token, uuid, wcs_manifest, dist_file, branch_name)
     print("Status Code", response.status_code)
     # print("JSON Response ", response.json())
 
+
 def put_webcomponent_version(token, uuid, wcs_manifest, dist_file, current_version_tag, branch_name):
     timestamp = datetime.now()
 
     version_tag_parts = current_version_tag.split("-")
-    version_tag = branch_name + "-" +  str(int(version_tag_parts[1]) + 1) + "-" +  timestamp.strftime("%Y%m%dT%H%M")
-    
+    version_tag = branch_name + "-" + \
+        str(int(version_tag_parts[1]) + 1) + \
+        "-" + timestamp.strftime("%Y%m%dT%H%M")
+
     url = api_url + "admin/webcomponent/" + uuid + "/" + version_tag
 
     headers = {
@@ -127,7 +136,7 @@ def put_webcomponent_version(token, uuid, wcs_manifest, dist_file, current_versi
     # wcs_manifest["readMe"] = None
     # wcs_manifest["licenseAgreement"] = None
     wcs_manifest["versionTag"] = version_tag
-    wcs_manifest["releaseTimestamp"] =  timestamp.strftime("%Y-%m-%dT%H:%M:%SZ")
+    wcs_manifest["releaseTimestamp"] = timestamp.strftime("%Y-%m-%dT%H:%M:%SZ")
 
     wcs_manifest["distFiles"] = [
         {
@@ -163,17 +172,28 @@ def confirm(text=""):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="Webcomponent-Store cli program to interact with the API.")
+    parser = argparse.ArgumentParser(
+        description="Webcomponent-Store cli program to interact with the API.")
 
     # parser.add_argument('-v', '--verbose', help="Produce verbose output.", action="store_true")
-    parser.add_argument('-l', '--list', help="Prints list of all webcomponents.", action="store_true")
-    parser.add_argument('-y', '--yes', help="Don't ask for confirmation on critical actions like deleting.", action="store_true")
-    parser.add_argument('--post',metavar='GIT_BRANCH_NAME', help="Post a webcomponent to the store (branch-name is only for versiontag creation).")
-    parser.add_argument('--delete', metavar='UUID', help="Deletes a webcomponent with the give uuid.")
-    parser.add_argument('--production', help="Use production URL for API: api.webcomponents.opendatahub.bz.it", action="store_true")
-    parser.add_argument('--lighthouse', help="Refetches the lighthouse stats for every webcomponent.", action="store_true")
-    parser.add_argument('--size', help="Recalculates the size for every webcomponent.", action="store_true")
-    parser.add_argument('--version', help="Output version information and exits.", action="store_true")
+    parser.add_argument(
+        '-l', '--list', help="Prints list of all webcomponents.", action="store_true")
+    parser.add_argument(
+        '-y', '--yes', help="Don't ask for confirmation on critical actions like deleting.", action="store_true")
+    parser.add_argument('--push', metavar='GIT_BRANCH_NAME',
+                        help="Push a webcomponent to the store (branch-name is only for versiontag creation).")
+    parser.add_argument('--delete', metavar='UUID',
+                        help="Deletes a webcomponent with the give uuid.")
+    parser.add_argument('--secret', metavar='SECRET',
+                        help="Deletes a webcomponent with the give uuid.")
+    parser.add_argument(
+        '--production', help="Use production URL for API: api.webcomponents.opendatahub.bz.it", action="store_true")
+    parser.add_argument(
+        '--lighthouse', help="Refetches the lighthouse stats for every webcomponent.", action="store_true")
+    parser.add_argument(
+        '--size', help="Recalculates the size for every webcomponent.", action="store_true")
+    parser.add_argument(
+        '--version', help="Output version information and exits.", action="store_true")
 
     args = parser.parse_args()
 
@@ -188,27 +208,29 @@ if __name__ == '__main__':
         list = get_list()
         print(json.dumps(list, indent=4))
 
-    if(args.post):
-        token = get_token()
+    if(args.push and args.secret):
+        token = get_token(args.secret)
 
-        wcs_manifest = get_file_as_json("../wcs-manifest.json")
-        image = get_file_as_base64("../wcs-logo.png")
-        dist_file_path = "../" + wcs_manifest["dist"]["basePath"] + \
+        wcs_manifest = get_file_as_json("wcs-manifest.json")
+        image = get_file_as_base64("wcs-logo.png")
+        dist_file_path = wcs_manifest["dist"]["basePath"] + \
             "/" + wcs_manifest["dist"]["files"][0]
         dist_file = get_file_as_base64(dist_file_path)
 
         webcomp = find_webcomp(wcs_manifest["repositoryUrl"])
-        
+
         if webcomp == None:
             # post for first time
             uuid = post_webcomponent(token, copy.deepcopy(wcs_manifest), image)
-            post_webcomponent_version(token, uuid, copy.deepcopy(wcs_manifest), dist_file, args.post)
+            post_webcomponent_version(token, uuid, copy.deepcopy(
+                wcs_manifest), dist_file, args.push)
         else:
             # update webcomp
-            put_webcomponent_version(token, webcomp["uuid"], wcs_manifest, dist_file, webcomp["currentVersion"]["versionTag"], args.post)
+            put_webcomponent_version(
+                token, webcomp["uuid"], wcs_manifest, dist_file, webcomp["currentVersion"]["versionTag"], args.push)
 
     if(args.lighthouse):
-        token = get_token()
+        token = get_token(args.secret)
         url = api_url + "admin/webcomponent/refetch-lighthouse"
         headers = {
             "Authorization": "Bearer " + token
@@ -217,7 +239,7 @@ if __name__ == '__main__':
         print("Status Code", response.status_code)
 
     if(args.size):
-        token = get_token()
+        token = get_token(args.secret)
         url = api_url + "admin/webcomponent/recalculate-size"
         headers = {
             "Authorization": "Bearer " + token
@@ -228,7 +250,7 @@ if __name__ == '__main__':
     if(args.delete):
         if not args.yes:
             confirm("deletion ")
-        token = get_token()
+        token = get_token(args.secret)
         url = api_url + "admin/webcomponent/" + args.delete
 
         headers = {
