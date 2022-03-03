@@ -25,7 +25,7 @@ KEYCLOAK_REALM = "noi"
 KEYCLOAK_CLIENT_ID = "it.bz.opendatahub.webcomponents.api"
 KEYCLOAK_CLIENT_SECRET = os.environ["CLIENT_SECRET"]
 
-print("echo the test secret: " + KEYCLOAK_CLIENT_SECRET)
+print("echo the test secret length: " + str(len(KEYCLOAK_CLIENT_SECRET)))
 
 api_url = API_URL_DEV
 
