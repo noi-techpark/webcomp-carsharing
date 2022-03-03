@@ -6,7 +6,7 @@ export async function requestGetCoordinatesFromSearch(query) {
     if (query) {
       let formattedTourismCarsharingStationsData = [];
       const tourismCarsharingStationsRequest = await fetch(
-        `${TOURISM_PATH_MOBILITY}/Poi?pagenumber=1&poitype=64&subtype=2&pagesize=-1&searchfilter=${query}&origin=webcomp-carsharing`
+        `${TOURISM_PATH_MOBILITY}/Poi?pagenumber=1&poitype=64&subtype=2&pagesize=-1&searchfilter=${query}` + ORIGIN
       );
       const tourismCarsharingStationsResponse = await tourismCarsharingStationsRequest.json();
       if (tourismCarsharingStationsResponse.Items) {
@@ -26,7 +26,7 @@ export async function requestGetCoordinatesFromSearch(query) {
 
       let formattedMobilityCarsharingStationsData = [];
       const mobilityCarsharingStationsRequest = await fetch(
-        `${BASE_PATH_MOBILITY}/tree,node/CarsharingStation/*/latest?where=and(or(smetadata.name_it.ire."${query}",smetadata.name_en.ire."${query}",smetadata.name_de.ire."${query}",sname.ire."${query}"),sactive.eq.true)&select=smetadata,scoordinate,sname&origin=webcomp-carsharing`
+        `${BASE_PATH_MOBILITY}/tree,node/CarsharingStation/*/latest?where=and(or(smetadata.name_it.ire."${query}",smetadata.name_en.ire."${query}",smetadata.name_de.ire."${query}",sname.ire."${query}"),sactive.eq.true)&select=smetadata,scoordinate,sname` + ORIGIN
       );
       const mobilityCarsharingStationsResponse = await mobilityCarsharingStationsRequest.json();
       if (
@@ -72,7 +72,7 @@ export async function requestGetCoordinatesFromSearch(query) {
       //
 
       const tourismResponse = await fetch(
-        `https://tourism.opendatahub.bz.it/api/Poi?pagenumber=1&pagesize=10000&poitype=511&searchfilter=${query}&origin=webcomp-carsharing`,
+        `https://tourism.opendatahub.bz.it/api/Poi?pagenumber=1&pagesize=10000&poitype=511&searchfilter=${query}` + ORIGIN,
         {
           method: "GET",
           headers: new Headers({
