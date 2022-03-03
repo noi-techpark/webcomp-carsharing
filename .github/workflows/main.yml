@@ -6,6 +6,7 @@ on:
 
 env:
   NODE_VERSION: 14.x
+  VERSION_TAG: ${GITHUB_SHA}
 
 jobs:
   test:
@@ -36,7 +37,7 @@ jobs:
       - uses: noi-techpark/github-actions/webcomp-push@v2
         with:
           keycloak-secret: ${{secrets.WCSTORE_CLI_KEYCLOAK_SECRET_TEST}}
-          version-tag: $GITHUB_SHA
+          version-tag: ${{env.VERSION_TAG}}
 
   deploy-prod:
     runs-on: ubuntu-20.04
@@ -54,6 +55,6 @@ jobs:
       - uses: noi-techpark/github-actions/webcomp-push@v2
         with:
           keycloak-secret: ${{secrets.WCSTORE_CLI_KEYCLOAK_SECRET_PROD}}
-          version-tag: $GITHUB_SHA
+          version-tag: ${{env.VERSION_TAG}}
           production: "true"
       
