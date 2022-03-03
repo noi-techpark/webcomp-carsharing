@@ -1,4 +1,4 @@
-import { BASE_PATH_MOBILITY, TOURISM_PATH_MOBILITY } from "./config";
+import { BASE_PATH_MOBILITY, TOURISM_PATH_MOBILITY, ORIGIN } from "./config";
 
 export async function requestGetCoordinatesFromSearch(query) {
   const r = 150 * 1000;

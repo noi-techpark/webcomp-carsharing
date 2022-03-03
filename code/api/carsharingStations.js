@@ -1,4 +1,5 @@
-import { BASE_PATH_MOBILITY } from "./config";
+import { BASE_PATH_MOBILITY, ORIGIN } from "./config";
+
 
 export const requestCarsharingStations = async () => {
   try {
