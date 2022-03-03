@@ -38,10 +38,12 @@ jobs:
           python-version: '3.8'
           cache: 'pip'
           cache-dependency-path: '**/requirements.txt'
-        env:
-           CLIENT_SECRET: ${{secrets.KEYCLOAK_CLIENT_SECRET}}
+
       
-      - run: |
+      - name: Post webcomponent to store
+        env:
+          CLIENT_SECRET: ${{secrets.KEYCLOAK_CLIENT_SECRET}}
+        run: |
           pip install -r webcompstore-cli/requirements.txt
           python3 webcompstore-cli/webcompstore-cli.py --push main
       
