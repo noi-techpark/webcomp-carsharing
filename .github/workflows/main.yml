@@ -40,7 +40,8 @@ jobs:
           cache-dependency-path: '**/requirements.txt'
         env:
            CLIENT_SECRET: ${{secrets.KEYCLOAK_CLIENT_SECRET}}
-        run: |
+      
+      - run: |
           pip install -r webcompstore-cli/requirements.txt
           python3 webcompstore-cli/webcompstore-cli.py --push main
       
