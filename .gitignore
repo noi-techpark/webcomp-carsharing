@@ -18,4 +18,4 @@ yarn-error.log*
 
 work/scripts/*
 .env
-
+dist/*
