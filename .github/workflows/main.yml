@@ -55,5 +55,5 @@ jobs:
         with:
           keycloak-secret: ${{secrets.WCSTORE_CLI_KEYCLOAK_SECRET_PROD}}
           branch-name: prod
-          production: true
+          production: "true"
       
