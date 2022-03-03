@@ -3,7 +3,7 @@ import { BASE_PATH_MOBILITY } from "./config";
 export const requestCarsharingStations = async () => {
   try {
     const request = await fetch(
-      `${BASE_PATH_MOBILITY}/flat,node/CarsharingStation/*/latest?where=sactive.eq.true&select=scoordinate,scode,smetadata,sname,sdatatypes`
+      `${BASE_PATH_MOBILITY}/flat,node/CarsharingStation/*/latest?where=sactive.eq.true&select=scoordinate,scode,smetadata,sname,sdatatypes&origin=webcomp-carsharing'`
     );
     if (request.status !== 200) {
       throw new Error(request.statusText);
@@ -17,7 +17,7 @@ export const requestCarsharingStations = async () => {
 export const requestCarsharingCarsOfStation = async ({ scode }) => {
   try {
     const request = await fetch(
-      `${BASE_PATH_MOBILITY}/flat,node/CarsharingCar/*/latest?where=sactive.eq.true,pcode.eq."${scode}"&select=smetadata,sdatatypes`
+      `${BASE_PATH_MOBILITY}/flat,node/CarsharingCar/*/latest?where=sactive.eq.true,pcode.eq."${scode}"&select=smetadata,sdatatypes&origin=webcomp-carsharing`
     );
     if (request.status !== 200) {
       throw new Error(request.statusText);
@@ -31,7 +31,7 @@ export const requestCarsharingCarsOfStation = async ({ scode }) => {
 export const requestCarBrandsOfStations = async () => {
   try {
     const request = await fetch(
-      `${BASE_PATH_MOBILITY}/flat,node/CarsharingCar/*/latest?limit=200&select=smetadata.brand,pcode&where=sactive.eq.true&distinct=true`
+      `${BASE_PATH_MOBILITY}/flat,node/CarsharingCar/*/latest?limit=200&select=smetadata.brand,pcode&where=sactive.eq.true&distinct=true&origin=webcomp-carsharing`
     );
     if (request.status !== 200) {
       throw new Error(request.statusText);
@@ -45,7 +45,7 @@ export const requestCarBrandsOfStations = async () => {
 export const requestCarsharingCarBrands = async () => {
   try {
     const request = await fetch(
-      `${BASE_PATH_MOBILITY}/flat,node/CarsharingCar/*/latest?limit=200&select=smetadata.brand&where=sactive.eq.true&distinct=true`
+      `${BASE_PATH_MOBILITY}/flat,node/CarsharingCar/*/latest?limit=200&select=smetadata.brand&where=sactive.eq.true&distinct=true&origin=webcomp-carsharing`
     );
     if (request.status !== 200) {
       throw new Error(request.statusText);
