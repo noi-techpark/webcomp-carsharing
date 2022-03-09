@@ -7,6 +7,6 @@ Files: code/* work/* dist/*.js odh-*.js webcompstore-cli/*
 Copyright: (c) 2021 NOI Techpark <info@noi.bz.it>
 License: AGPL-3.0-or-later
 
-Files: infrastructure/* .editorconfig .gitignore *.md *.txt .env.* *.yml *.json yarn.lock webpack.* wcs-logo.png .github/workflows/ci.yml
+Files: infrastructure/* .editorconfig .gitignore *.md *.txt .env.* *.yml *.json yarn.lock webpack.* wcs-logo.png
 Copyright: (c) 2021 NOI Techpark <info@noi.bz.it>
 License: CC0-1.0
