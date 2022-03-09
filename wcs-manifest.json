@@ -3,7 +3,7 @@
   "description": "A widget that allows to easily integrate the map view of the carsharing cars that are located in all South Tyrol or near a certain location.",
   "descriptionAbstract": "This web component shows all carsharing cars provided by the Open Data Hub.",
   "license": "AGPL-3.0-or-later",
-  "repositoryUrl": "https://github.com/noi-techpark/webcomp-carsharing",
+  "repositoryUrl": "https://github.com/noi-techpark/webcomp-carsharing.git",
   "copyrightHolders": [
     {
       "name": "NOI",
