@@ -5,7 +5,7 @@
 
 A web component that shows the Carsharing cars status stored in the Open Data Hub.
 
-<!-- Do you want to see it in action? Go to our [web component store](https://webcomponents.opendatahub.bz.it/webcomponent/543ed85d-8280-4240-8625-4ee5102710ff)! -->
+Do you want to see it in action? Go to our [web component store](https://webcomponents.opendatahub.bz.it/webcomponent/74248fd5-f768-4c77-9acd-2d90d568c2e1)!
 
 - [Carsharing - Web component](#carsharing---web-component)
   - [Usage](#usage)
