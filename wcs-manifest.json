@@ -90,7 +90,7 @@
         "label": "Coordinates of the current location in the following format: { \"lat\": 46.31, \"lng\": 11.26 }",
         "required": true,
         "options": {
-          "default": "{ \"lat\": 46.48, \"lng\": 11.33 }"
+          "default": "{ \"lat\": 46.479, \"lng\": 11.331 }"
         }
       },
       {
