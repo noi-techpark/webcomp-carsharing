@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2021 NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import greenIcon from "../assets/pins/marker_green.svg";
 import orangeIcon from "../assets/pins/marker_orange.svg";
 import redIcon from "../assets/pins/marker_red.svg";
