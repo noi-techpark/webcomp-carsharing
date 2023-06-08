@@ -6,6 +6,7 @@ SPDX-License-Identifier: CC0-1.0
 
 # Carsharing - Web component
 
+![REUSE Compliance](https://github.com/noi-techpark/webcomp-carsharing/actions/workflows/reuse.yml/badge.svg)
 [![REUSE status](https://api.reuse.software/badge/github.com/noi-techpark/webcomp-carsharing)](https://api.reuse.software/info/github.com/noi-techpark/webcomp-carsharing)
 [![CI](https://github.com/noi-techpark/webcomp-carsharing/actions/workflows/main.yml/badge.svg)](https://github.com/noi-techpark/webcomp-carsharing/actions/workflows/main.yml)
 
