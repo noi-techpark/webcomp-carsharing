@@ -12,7 +12,7 @@ SPDX-License-Identifier: CC0-1.0
 
 A web component that shows the Carsharing cars status stored in the Open Data Hub.
 
-Do you want to see it in action? Go to our [web component store](https://webcomponents.opendatahub.bz.it/webcomponent/74248fd5-f768-4c77-9acd-2d90d568c2e1)!
+Do you want to see it in action? Go to our [web component store](https://webcomponents.opendatahub.com/webcomponent/74248fd5-f768-4c77-9acd-2d90d568c2e1)!
 
 - [Carsharing - Web component](#carsharing---web-component)
   - [Usage](#usage)
@@ -238,7 +238,7 @@ docker-compose run --rm app /bin/bash -c "npm start"
 
 ### Support
 
-For support, please contact [help@opendatahub.bz.it](mailto:help@opendatahub.bz.it).
+For support, please contact [help@opendatahub.com](mailto:help@opendatahub.com).
 
 ### Contributing
 
