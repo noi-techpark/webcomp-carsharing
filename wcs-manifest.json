@@ -1,7 +1,7 @@
 {
   "title": "Carsharing",
   "description": "Easily integrate the map view of the carsharing cars that are located in South Tyrol.",
-  "descriptionAbstract": "This web component shows all carsharing cars provided by the Open Data Hub.",
+  "descriptionAbstract": "Show all carsharing cars provided by the Open Data Hub.",
   "license": "AGPL-3.0-or-later",
   "repositoryUrl": "https://github.com/noi-techpark/webcomp-carsharing.git",
   "shortName": "carsharing",
