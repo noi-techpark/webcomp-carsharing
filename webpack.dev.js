@@ -4,31 +4,39 @@
 
 const path = require("path");
 const webpack = require("webpack");
-var dotenv = require("dotenv").config({ path: __dirname + "/.env" });
+const dotenv = require("dotenv").config({ path: __dirname + "/.env" });
 
 module.exports = {
   mode: "development",
   entry: path.resolve(__dirname, "./code/odh-carsharing.js"),
-  watch: true,
+  watch: false,
   output: {
     path: path.resolve(__dirname, "./work/scripts"),
     filename: "odh-carsharing.js",
+    publicPath: "/scripts/",
   },
   plugins: [
     new webpack.DefinePlugin({
       "process.env.DOTENV": JSON.stringify(dotenv.parsed),
     }),
   ],
-  // webpack-dev-server configuration
   devServer: {
-    contentBase: path.resolve(__dirname, "./work"),
-    publicPath: "/scripts/",
-    watchContentBase: true,
+    static: {
+      directory: path.resolve(__dirname, "./work"),
+    },
     compress: true,
     port: 8080,
     open: false,
-    openPage: "",
-    overlay: true,
+    client: {
+      overlay: {
+        errors: true,
+        warnings: true,
+      },
+    },
+    watchFiles: path.resolve(__dirname, "./work/**/*"),
+    // Make sure we're not using any deprecated options
+    hot: true,
+    historyApiFallback: true,
   },
   devtool: "inline-source-map",
   module: {

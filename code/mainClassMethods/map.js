@@ -101,7 +101,9 @@ export async function drawStationsOnMap() {
 
         if (valid) {
           valid = false;
-          for (let brand of brandsByStations[station.scode]) {
+          const stationBrands = brandsByStations[station.scode] || []
+          // for (let brand of brandsByStations[station.scode]) {
+          for (let brand of stationBrands) {
             if (this.filters[brand] === true) {
               valid = true;
               break;
