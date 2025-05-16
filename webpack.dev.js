@@ -9,7 +9,7 @@ var dotenv = require("dotenv").config({ path: __dirname + "/.env" });
 module.exports = {
   mode: "development",
   entry: path.resolve(__dirname, "./code/odh-carsharing.js"),
-  watch: true,
+  watch: false, // Changed to false to avoid the "No need to use 'serve' command with { watch: true }" warning
   output: {
     path: path.resolve(__dirname, "./work/scripts"),
     filename: "odh-carsharing.js",
@@ -19,16 +19,20 @@ module.exports = {
       "process.env.DOTENV": JSON.stringify(dotenv.parsed),
     }),
   ],
-  // webpack-dev-server configuration
+  // Updated webpack-dev-server configuration
   devServer: {
-    contentBase: path.resolve(__dirname, "./work"),
-    publicPath: "/scripts/",
-    watchContentBase: true,
+    static: {
+      directory: path.resolve(__dirname, "./work"),
+    },
+    devMiddleware: {
+      publicPath: "/scripts/",
+    },
     compress: true,
     port: 8080,
     open: false,
-    openPage: "",
-    overlay: true,
+    client: {
+      overlay: true,
+    },
   },
   devtool: "inline-source-map",
   module: {
