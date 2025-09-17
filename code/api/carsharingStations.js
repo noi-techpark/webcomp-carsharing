@@ -4,11 +4,24 @@
 
 import { BASE_PATH_MOBILITY, ORIGIN } from "./config";
 
-
 export const requestCarsharingStations = async () => {
   try {
     const request = await fetch(
-      `${BASE_PATH_MOBILITY}/flat,node/CarsharingStation/*/latest?where=sactive.eq.true&select=scoordinate,scode,smetadata,sname,sdatatypes` + ORIGIN
+      `${BASE_PATH_MOBILITY}/flat,node/CarsharingStation/number-available/latest?where=sactive.eq.true&select=scoordinate,scode,smetadata,sname,sdatatypes` + ORIGIN
+    );
+    if (request.status !== 200) {
+      throw new Error(request.statusText);
+    }
+    return await request.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const requestCarsharingCars = async () => {
+  try {
+    const request = await fetch(
+      `${BASE_PATH_MOBILITY}/flat,node/CarsharingCar/availability/latest?where=sorigin.eq.%22AlpsGo%22,sactive.eq.true&select=scode,smetadata,mvalue,mvalidtime` + ORIGIN
     );
     if (request.status !== 200) {
       throw new Error(request.statusText);
@@ -22,7 +35,7 @@ export const requestCarsharingStations = async () => {
 export const requestCarsharingCarsOfStation = async ({ scode }) => {
   try {
     const request = await fetch(
-      `${BASE_PATH_MOBILITY}/flat,node/CarsharingCar/*/latest?where=sactive.eq.true,pcode.eq."${scode}"&select=smetadata,sdatatypes` + ORIGIN
+      `${BASE_PATH_MOBILITY}/flat,node/CarsharingCar/current-station/latest?limit=-1&offset=0&where=sorigin.eq.%22AlpsGo%22,sactive.eq.true,mvalue.eq."${scode}"&select=scode` + ORIGIN
     );
     if (request.status !== 200) {
       throw new Error(request.statusText);
@@ -33,24 +46,10 @@ export const requestCarsharingCarsOfStation = async ({ scode }) => {
   }
 };
 
-export const requestCarBrandsOfStations = async () => {
+export const requestCarsharingCar = async ({ scode }) => {
   try {
     const request = await fetch(
-      `${BASE_PATH_MOBILITY}/flat,node/CarsharingCar/*/latest?limit=200&select=smetadata.brand,pcode&where=sactive.eq.true&distinct=true&origin=webcomp-carsharing` + ORIGIN
-    );
-    if (request.status !== 200) {
-      throw new Error(request.statusText);
-    }
-    return await request.json();
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const requestCarsharingCarBrands = async () => {
-  try {
-    const request = await fetch(
-      `${BASE_PATH_MOBILITY}/flat,node/CarsharingCar/*/latest?limit=200&select=smetadata.brand&where=sactive.eq.true&distinct=true&origin=webcomp-carsharing` + ORIGIN
+      `${BASE_PATH_MOBILITY}/flat,node/CarsharingCar/availability/latest?limit=-1&offset=0&where=sorigin.eq.%22AlpsGo%22,sactive.eq.true,scode.eq."${scode}"` + ORIGIN
     );
     if (request.status !== 200) {
       throw new Error(request.statusText);
