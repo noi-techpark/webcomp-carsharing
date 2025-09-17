@@ -6,7 +6,8 @@ import {
   requestCarsharingStations, 
   requestCarsharingCarsOfStation,
   requestCarsharingCar,
-  requestCarsharingCars
+  requestCarsharingCars,
+  requestStationCarRelations
 } from "../api/carsharingStations";
 import { 
   requestTourismCarsharingStations,
@@ -28,12 +29,86 @@ export class CarsharingDataService {
     this.stationsCache = null;
     this.brandsCache = null;
     this.brandsByStationsCache = null;
+    this.bulkDataCache = null; // Cache for optimized bulk data
+  }
+
+  /**
+   * Fetch all bulk data This is used for initial page load
+   */
+  async getBulkData() {
+    if (this.bulkDataCache) {
+      return this.bulkDataCache;
+    }
+
+    try {
+      // Fetch all data in parallel
+      const [stationCarRelations, allCars, allStations] = await Promise.all([
+        requestStationCarRelations(),
+        requestCarsharingCars(),
+        requestCarsharingStations()
+      ]);
+
+      const carsByCode = {};
+      const stationsByCode = {};
+      const carToStationMap = {};
+      const stationToCarMap = {};
+
+      // Process cars
+      if (allCars && allCars.data) {
+        for (let car of allCars.data) {
+          carsByCode[car.scode] = car;
+        }
+      }
+
+      // Process stations
+      if (allStations && allStations.data) {
+        for (let station of Object.values(allStations.data)) {
+          stationsByCode[station.scode] = station;
+        }
+      }
+
+      // Process car-station relations
+      if (stationCarRelations && stationCarRelations.data) {
+        for (let relation of stationCarRelations.data) {
+          const carCode = relation.scode;
+          const stationCode = relation.mvalue;
+          
+          // Only include relations where station code is not "0" (car is at a station)
+          if (stationCode !== "0") {
+            carToStationMap[carCode] = stationCode;
+            
+            if (!stationToCarMap[stationCode]) {
+              stationToCarMap[stationCode] = [];
+            }
+            stationToCarMap[stationCode].push(carCode);
+          }
+        }
+      }
+
+      this.bulkDataCache = {
+        carsByCode,
+        stationsByCode,
+        carToStationMap,
+        stationToCarMap
+      };
+
+      return this.bulkDataCache;
+    } catch (error) {
+      console.error("Error fetching bulk data:", error);
+      return {
+        carsByCode: {},
+        stationsByCode: {},
+        carToStationMap: {},
+        stationToCarMap: {}
+      };
+    }
   }
 
 
   /**
    * Get all available car brands for filters
    * Returns normalized brand names with their filter states
+   * Uses bulk data instead
    */
   async getCarBrands() {
     if (this.brandsCache) {
@@ -41,15 +116,14 @@ export class CarsharingDataService {
     }
 
     try {
-      const response = await requestCarsharingCars();
+      const { carsByCode } = await this.getBulkData();
       const brands = {};
 
-      if (response && response.data) {
-        for (let item of response.data) {
-          const brandName = item.smetadata.vehicle_model.model_name;
-          if (brandName) {
-            brands[brandName] = true;
-          }
+      // Process all cars from bulk data
+      for (let car of Object.values(carsByCode)) {
+        const brandName = car.smetadata?.vehicle_model?.model_name;
+        if (brandName) {
+          brands[brandName] = true;
         }
       }
 
@@ -64,6 +138,7 @@ export class CarsharingDataService {
   /**
    * Get brands organized by station codes
    * Used for filtering stations by available car brands
+   * Uses bulk data instead of hundreds of individual API calls
    */
   async getBrandsByStations() {
     if (this.brandsByStationsCache) {
@@ -71,43 +146,27 @@ export class CarsharingDataService {
     }
 
     try {
-      // First get all stations
-      const stationsResponse = await requestCarsharingStations();
+      const { carsByCode, stationToCarMap } = await this.getBulkData();
       const brandsByStations = {};
 
-      if (stationsResponse && stationsResponse.data) {
-        // For each station, get the cars at that station
-        const stationPromises = Object.values(stationsResponse.data).map(async (station) => {
-          try {
-            const carsAtStation = await requestCarsharingCarsOfStation({ scode: station.scode });
-            if (carsAtStation && carsAtStation.data) {
-              const carBrands = [];
-              
-              // Get details for each car to get the brand
-              for (let car of carsAtStation.data) {
-                try {
-                  const carDetails = await requestCarsharingCar({ scode: car.scode });
-                  if (carDetails && carDetails.data && carDetails.data.length > 0) {
-                    const brandName = carDetails.data[0].smetadata.vehicle_model.model_name;
-                    if (brandName && !carBrands.includes(brandName)) {
-                      carBrands.push(brandName);
-                    }
-                  }
-                } catch (error) {
-                  console.warn(`Error fetching car details for ${car.scode}:`, error);
-                }
-              }
-              
-              if (carBrands.length > 0) {
-                brandsByStations[station.scode] = carBrands;
-              }
-            }
-          } catch (error) {
-            console.warn(`Error fetching cars for station ${station.scode}:`, error);
-          }
-        });
+      // Process each station and its cars
+      for (let stationCode in stationToCarMap) {
+        const carCodes = stationToCarMap[stationCode];
+        const carBrands = [];
 
-        await Promise.all(stationPromises);
+        for (let carCode of carCodes) {
+          const car = carsByCode[carCode];
+          if (car && car.smetadata?.vehicle_model?.model_name) {
+            const brandName = car.smetadata.vehicle_model.model_name;
+            if (!carBrands.includes(brandName)) {
+              carBrands.push(brandName);
+            }
+          }
+        }
+
+        if (carBrands.length > 0) {
+          brandsByStations[stationCode] = carBrands;
+        }
       }
 
       this.brandsByStationsCache = brandsByStations;
@@ -403,6 +462,7 @@ export class CarsharingDataService {
     this.stationsCache = null;
     this.brandsCache = null;
     this.brandsByStationsCache = null;
+    this.bulkDataCache = null; // Clear bulk data cache too
   }
 }
 

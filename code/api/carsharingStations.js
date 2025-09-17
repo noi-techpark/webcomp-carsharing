@@ -59,3 +59,17 @@ export const requestCarsharingCar = async ({ scode }) => {
     console.log(error);
   }
 };
+
+export const requestStationCarRelations = async () => {
+  try {
+    const request = await fetch(
+      `${BASE_PATH_MOBILITY}/flat,node/CarsharingCar/current-station/latest?where=sorigin.eq."AlpsGo",sactive.eq.true&select=scode,mvalue` + ORIGIN
+    );
+    if (request.status !== 200) {
+      throw new Error(request.statusText);
+    }
+    return await request.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
