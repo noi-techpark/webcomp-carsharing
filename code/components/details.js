@@ -10,18 +10,7 @@ import { t } from "../translations";
 
 
 export function render_details() {
-  const {
-    scoordinate,
-    sname,
-    smetadata,
-    mvalue,
-    mvalidtime,
-    cars
-  } = this.currentStation;
-
-  const actuallyAvailableVehicles = mvalue;
-  const lastChange = mvalidtime;
-  const availableVehicles = smetadata.availableVehicles;
+  const station = this.currentStation;
 
   const width = 150;
   const height = 150;
@@ -31,53 +20,34 @@ export function render_details() {
   const fontSize = 14;
 
   const bookCarUrl = 'https://booking.carsharing.bz.it';
-  const directionsrUrl = 'http://www.google.com/maps/place/'+ scoordinate.y+ ',' + scoordinate.x;
+  const directionsUrl = `http://www.google.com/maps/place/${station.coordinates.lat},${station.coordinates.lng}`;
 
-
-  let carByBrands = {};
   const carDetails = [];
 
-  for (let station in cars) {
-    let brandName = cars[station].smetadata.brand;
-    let available = cars[station].mvalue === 0 ? 1 : 0;
-    if (brandName in carByBrands) {
-      carByBrands[brandName]["availability"] += available;
-      carByBrands[brandName]["maxAvailability"] += 1;
-
-    } else {
-      carByBrands[brandName] = {};
-      carByBrands[brandName]["availability"] = 0;
-      carByBrands[brandName]["maxAvailability"] = 1;
-      carByBrands[brandName]["availability"] += available;
-    }
-  }
-
-  for (let key in carByBrands) {
-    let brandName = key;
-    let available = carByBrands[key]["availability"];
-    let maxAvailability = carByBrands[key]["maxAvailability"];
+  // Use the normalized carsByBrands data
+  for (let brandName in station.carsByBrands) {
+    const brandData = station.carsByBrands[brandName];
     const delay = 250;
 
     carDetails.push(html`<wc-radial-progress
-    .minValue=0
-    .maxValue=${maxAvailability}
-    .value=${available}
-    .width=${swidth}
-    .height=${sheight}
-    .text=${brandName}
-    .fontSize=${fontSize}
-    .delay=${delay}
-    .id=${sname}
+      .minValue=0
+      .maxValue=${brandData.total}
+      .value=${brandData.available}
+      .width=${swidth}
+      .height=${sheight}
+      .text=${brandName}
+      .fontSize=${fontSize}
+      .delay=${delay}
+      .id=${station.name}
      ></wc-radial-progress>`);
   }
-
 
   return html` <div class="details">
     <div class="header">
       <wc-sidemodal-header
         .type="title"
-        .tTitle="${sname}"
-        .tSubtitle=${dayjs(lastChange).format("MMM DD, YYYY HH:mm")}
+        .tTitle="${station.name}"
+        .tSubtitle=${dayjs(station.lastUpdated).format("MMM DD, YYYY HH:mm")}
         .closeModalAction="${() => {
       this.detailsOpen = false;
     }}"
@@ -87,17 +57,16 @@ export function render_details() {
      <wc-divider></wc-divider>
     </div>
     <wc-radial-progress
-    .maxValue=${availableVehicles}
-    .value=${actuallyAvailableVehicles}
+    .maxValue=${station.maxVehicles}
+    .value=${station.availableVehicles}
     .width=${width}
     .height=${height}
-    .id=${sname}
+    .id=${station.name}
      ></wc-radial-progress>
 
      <div class="detailDescription">${t["availableCars"][this.language]}</div>
 
         ${carDetails}
-
 
     <div>
       <wc-detail-button @click="${() => {
@@ -109,7 +78,7 @@ export function render_details() {
 
     <div>
       <wc-detail-button @click="${() => {
-        window.open(directionsrUrl, '_blank');
+        window.open(directionsUrl, '_blank');
       }}"
       .text=${t["directions"][this.language]}
       ></wc-detail-button>

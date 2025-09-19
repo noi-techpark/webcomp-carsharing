@@ -7,13 +7,12 @@ import leafletStyle from "leaflet/dist/leaflet.css";
 import { css, html, unsafeCSS } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
 import { debounce as _debounce } from "lodash";
-import { requestGetCoordinatesFromSearch } from "./api/poi";
 import { BaseCarsharing } from "./baseClass";
 import { render_details } from "./components/details";
 import { render_filters } from "./components/filters";
 import { render__mapControls } from "./components/mapControls";
 import { render_searchPlaces } from "./components/searchPlaces";
-import { requestCarsharingCarBrands } from "./api/carsharingStations";
+import { carsharingDataService } from "./services/dataService";
 import {
   drawStationsOnMap,
   drawUserOnMap,
@@ -80,18 +79,11 @@ class Carsharing extends BaseCarsharing {
     initializeMap.bind(this)();
     drawUserOnMap.bind(this)();
 
+    // Load car brands from data service and set up filters
+    const brandFilters = await carsharingDataService.getCarBrands();
+    this.filters = { ...this.filters, ...brandFilters };
+    this.defaultFilters = { ...this.filters };
 
-    // loads brandNames from open data hub and sets filters
-    let brandNames = await requestCarsharingCarBrands();
-    brandNames = brandNames.data;
-
-
-    for(let key in brandNames){
-      let brandName = brandNames[key]["smetadata.brand"];
-      this.filters[brandName] = true;
-    }
-
-    this.defaultFilters = {...this.filters}
     await drawStationsOnMap.bind(this)();
 
     this.isLoading = false;
@@ -122,10 +114,14 @@ class Carsharing extends BaseCarsharing {
     this.filtersOpen = !this.filtersOpen;
   };
 
-  debounced__request__get_coordinates_from_search = _debounce(
-    requestGetCoordinatesFromSearch.bind(this),
-    500
-  );
+  searchPlaces = async (query) => {
+    try {
+      this.searchPlacesFound = await carsharingDataService.searchPlaces(query, this.language);
+    } catch (error) {
+      console.error("Error searching places:", error);
+      this.searchPlacesFound = {};
+    }
+  };
 
   render() {
     if (!this.tiles_url) {

@@ -4,7 +4,91 @@
 
 import { BASE_PATH_MOBILITY, TOURISM_PATH_MOBILITY, ORIGIN } from "./config";
 
+/**
+ * Search tourism carsharing stations
+ */
+export async function requestTourismCarsharingStations(query) {
+  try {
+    const response = await fetch(
+      `${TOURISM_PATH_MOBILITY}/Poi?pagenumber=1&poitype=64&subtype=2&pagesize=-1&searchfilter=${query}` + ORIGIN
+    );
+    if (response.ok) {
+      return await response.json();
+    }
+    throw new Error(`HTTP ${response.status}`);
+  } catch (error) {
+    console.error("Error fetching tourism carsharing stations:", error);
+    return null;
+  }
+}
+
+/**
+ * Search mobility carsharing stations
+ */
+export async function requestMobilityCarsharingStations(query) {
+  try {
+    const response = await fetch(
+      `${BASE_PATH_MOBILITY}/tree,node/CarsharingStation/*/latest?where=and(or(smetadata.name_it.ire."${query}",smetadata.name_en.ire."${query}",smetadata.name_de.ire."${query}",sname.ire."${query}"),sactive.eq.true)&select=smetadata,scoordinate,sname` + ORIGIN
+    );
+    if (response.ok) {
+      return await response.json();
+    }
+    throw new Error(`HTTP ${response.status}`);
+  } catch (error) {
+    console.error("Error fetching mobility carsharing stations:", error);
+    return null;
+  }
+}
+
+/**
+ * Search tourism general POIs
+ */
+export async function requestTourismPois(query) {
+  try {
+    const response = await fetch(
+      `https://tourism.opendatahub.com/api/Poi?pagenumber=1&pagesize=10000&poitype=511&searchfilter=${query}` + ORIGIN
+    );
+    if (response.ok) {
+      return await response.json();
+    }
+    throw new Error(`HTTP ${response.status}`);
+  } catch (error) {
+    console.error("Error fetching tourism POIs:", error);
+    return null;
+  }
+}
+
+/**
+ * Search HERE Maps places
+ */
+export async function requestHereMapsPlaces(query, apiKey) {
+  try {
+    const r = 150 * 1000;
+    const response = await fetch(
+      `https://places.ls.hereapi.com/places/v1/browse?apiKey=${apiKey}&in=46.31,11.26;r=${r}&q=${query}`,
+      {
+        method: "GET",
+        headers: new Headers({
+          Accept: "application/json",
+        }),
+      }
+    );
+    if (response.ok) {
+      return await response.json();
+    }
+    throw new Error(`HTTP ${response.status}`);
+  } catch (error) {
+    console.error("Error fetching HERE Maps places:", error);
+    return null;
+  }
+}
+
+/**
+ * @deprecated Legacy function - use the data service instead
+ */
 export async function requestGetCoordinatesFromSearch(query) {
+  console.warn("requestGetCoordinatesFromSearch is deprecated. Use carsharingDataService.searchPlaces() instead.");
+  // Legacy implementation preserved for backward compatibility
   const r = 150 * 1000;
   try {
     if (query) {

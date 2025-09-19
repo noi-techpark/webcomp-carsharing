@@ -3,15 +3,21 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { html } from "lit-element";
+import { debounce as _debounce } from "lodash";
 import findPositionBlueIcon from "../assets/find-position-blue.svg";
 import { t } from "../translations";
 
 export function render_searchPlaces() {
+  const debounced_search_places = _debounce(
+    (query) => this.searchPlaces(query),
+    500
+  );
+
   const handle_onchange = (value) => {
     if (value) {
       this.detailsOpen = false;
       this.hereMapsQuery = value;
-      this.debounced__request__get_coordinates_from_search(value);
+      debounced_search_places(value);
       this.filtersOpen = false;
     } else {
       this.searchPlacesFound = {};
@@ -58,7 +64,7 @@ export function render_searchPlaces() {
   };
 
   const handleFocusInput = () => {
-    this.debounced__request__get_coordinates_from_search(this.hereMapsQuery);
+    debounced_search_places(this.hereMapsQuery);
     if (this.hereMapsQuery.length) {
       this.filtersOpen = false;
     }

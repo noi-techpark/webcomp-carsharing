@@ -7,13 +7,8 @@ import leaflet_mrkcls from "leaflet.markercluster";
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import user__marker from "../assets/user.svg";
-import { getLatLongFromStationDetail } from "../utils";
 import { getPin } from "./utils";
-import {
-  requestCarsharingStations,
-  requestCarsharingCarsOfStation,
-  requestCarBrandsOfStations
-} from "../api/carsharingStations";
+import { carsharingDataService } from "../services/dataService";
 
 export async function initializeMap() {
   const DefaultIcon = Leaflet.icon({
@@ -73,82 +68,33 @@ export function drawUserOnMap() {
 export async function drawStationsOnMap() {
   const stations_layer_array = [];
 
-  const carsharingStations = await requestCarsharingStations();
+  // Get filtered stations from data service
+  const filteredStations = await carsharingDataService.getFilteredStations(this.filters);
 
-  const brandsOfStations = await requestCarBrandsOfStations();
-  const brandsByStations = {};
-  for (let b of brandsOfStations.data) {
-    if (!(b.pcode in brandsByStations)) {
-      brandsByStations[b.pcode] = []
-    }
-    brandsByStations[b.pcode].push(b["smetadata.brand"])
-  }
+  filteredStations.forEach((station) => {
+    const marker = Leaflet.marker(
+      [station.coordinates.lat, station.coordinates.lng],
+      {
+        icon: getPin(station.availableVehicles, station.maxVehicles),
+      }
+    );
 
+    const action = async () => {
+      this.searchPlacesFound = {};
 
+      // Get detailed station data from service
+      const stationDetails = await carsharingDataService.getStationDetails(station.id);
+      
+      if (stationDetails) {
+        this.currentStation = stationDetails;
+        this.filtersOpen = false;
+        this.detailsOpen = true;
+      }
+    };
 
-  if (carsharingStations) {
-    Object.values(carsharingStations.data)
-      .filter((station) => {
-        // Use filters on all retrieved stations
-        let valid = true;
-        if (this.filters.availability) {
-          if (
-            station.mvalue === 0
-          ) {
-            valid = false;
-          }
-        }
-
-        if (valid) {
-          valid = false;
-          // add null check for brandsByStations[station.scode]
-          const stationBrands = brandsByStations[station.scode] || []
-          for (let brand of stationBrands) {
-            if (this.filters[brand] === true) {
-              valid = true;
-              break;
-            }
-          }
-        }
-
-        return valid;
-      })
-      .map((station) => {
-        const marker_position = getLatLongFromStationDetail(
-          station.scoordinate
-        );
-
-        const actuallyAvailableVehicles = station.mvalue
-        const availableVehicles = station.smetadata.availableVehicles
-
-        const marker = Leaflet.marker(
-          [marker_position.lat, marker_position.lng],
-          {
-            icon: getPin(actuallyAvailableVehicles, availableVehicles),
-          }
-        );
-
-        const action = async () => {
-          this.searchPlacesFound = {};
-
-          const carsOfStation = await requestCarsharingCarsOfStation({
-            scode: station.scode,
-          });
-
-          this.currentStation = {
-            ...station,
-            cars: carsOfStation.data
-          };
-
-          this.filtersOpen = false;
-          this.detailsOpen = true;
-
-        };
-
-        marker.on("mousedown", action);
-        stations_layer_array.push(marker);
-      });
-  }
+    marker.on("mousedown", action);
+    stations_layer_array.push(marker);
+  });
 
   // remove markers before adding new ones
   this.map.eachLayer(function (layer) {
@@ -158,7 +104,6 @@ export async function drawStationsOnMap() {
   });
 
   const stations_layer = Leaflet.layerGroup(stations_layer_array, {});
-
 
   this.layer_stations = new Leaflet.MarkerClusterGroup({
     showCoverageOnHover: false,
