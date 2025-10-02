@@ -48,6 +48,26 @@ export const t = {
     en: "Available cars",
     de: "Verfügbare Fahrzeuge",
   },
+  bookableCars: {
+    it: "Macchine prenotabili",
+    en: "Bookable cars",
+    de: "Buchbare Fahrzeuge",
+  },
+  carsAtStation: {
+    it: "Macchine alla stazione",
+    en: "Cars at the station",
+    de: "Fahrzeuge an der Station",
+  },
+  bookingToleranceInfo: {
+    it: "Le macchine prenotabili sono immediatamente disponibili.\nLe macchine alla stazione includono anche veicoli che potrebbero non essere ancora prenotabili a causa di finestre di tolleranza per operazioni di controllo.",
+    en: "Bookable cars are immediately available.\nCars at the station also include vehicles that might not yet be bookable due to tolerance windows for control operations.",
+    de: "Buchbare Fahrzeuge sind sofort verfügbar.\nFahrzeuge an der Station umfassen auch Fahrzeuge, die aufgrund von Toleranzfenstern für Kontrolloperationen noch nicht buchbar sein könnten.",
+  },
+  bookingToleranceShort: {
+    it: "Prenotabili subito vs. tutte le auto presenti",
+    en: "Bookable now vs. all cars present",
+    de: "Sofort buchbar vs. alle Autos vor Ort",
+  },
   cars: {
     it: "MACCHINE",
     en: "CARS",
