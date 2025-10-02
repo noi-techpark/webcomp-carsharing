@@ -19,7 +19,7 @@ export function render_details() {
   const sheight = 50;
   const fontSize = 14;
 
-  const bookCarUrl = 'https://booking.carsharing.bz.it';
+  const bookCarUrl = 'https://www.alpsgo.it';
   const directionsUrl = `http://www.google.com/maps/place/${station.coordinates.lat},${station.coordinates.lng}`;
 
   const carDetails = [];
