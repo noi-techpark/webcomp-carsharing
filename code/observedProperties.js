@@ -24,6 +24,7 @@ export const observedProperties = {
 
   detailsOpen: { type: Boolean },
   filtersOpen: { type: Boolean },
+  showTooltip: { type: Boolean },
 
   isMobile: { type: Boolean },
   mobileOpen: { type: Boolean },

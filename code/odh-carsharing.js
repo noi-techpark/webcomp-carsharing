@@ -123,6 +123,10 @@ class Carsharing extends BaseCarsharing {
     }
   };
 
+  toggleTooltip() {
+    this.showTooltip = !this.showTooltip;
+  }
+
   render() {
     if (!this.tiles_url) {
       return html`

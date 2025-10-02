@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { html } from "lit-element";
 import { SIDE_MODAL_ROW_TYPES } from "../shared_components/sideModalRow/sideModalRow";
 import { t } from "../translations";
+import tooltipIcon from "../assets/Tooltip2.svg";
 
 
 
@@ -19,7 +20,7 @@ export function render_details() {
   const sheight = 50;
   const fontSize = 14;
 
-  const bookCarUrl = 'https://booking.carsharing.bz.it';
+  const bookCarUrl = 'https://www.alpsgo.it';
   const directionsUrl = `http://www.google.com/maps/place/${station.coordinates.lat},${station.coordinates.lng}`;
 
   const carDetails = [];
@@ -64,7 +65,20 @@ export function render_details() {
     .id=${station.name}
      ></wc-radial-progress>
 
-     <div class="detailDescription">${t["availableCars"][this.language]}</div>
+     <div class="detailDescription">
+       <span>${t["bookableCars"][this.language]}</span>
+       <img class="info-icon" src="${tooltipIcon}" @click="${() => this.toggleTooltip()}" alt="Info" />
+     </div>
+     
+     ${this.showTooltip ? html`
+       <div class="info-explanation">
+         ${t["bookingToleranceInfo"][this.language]}
+       </div>
+     ` : ''}
+
+     <div class="carsAtStationHeader">
+       <span>${t["carsAtStation"][this.language]}</span>
+     </div>
 
         ${carDetails}
 
