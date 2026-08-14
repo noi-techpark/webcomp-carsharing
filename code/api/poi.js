@@ -28,7 +28,7 @@ export async function requestTourismCarsharingStations(query) {
 export async function requestMobilityCarsharingStations(query) {
   try {
     const response = await fetch(
-      `${BASE_PATH_MOBILITY}/tree,node/CarsharingStation/*/latest?where=and(or(smetadata.name_it.ire."${query}",smetadata.name_en.ire."${query}",smetadata.name_de.ire."${query}",sname.ire."${query}"),sactive.eq.true)&select=smetadata,scoordinate,sname` + ORIGIN
+      `${BASE_PATH_MOBILITY}/tree,node/CarsharingStation/*/latest?limit=-1&where=and(or(smetadata.name_it.ire."${query}",smetadata.name_en.ire."${query}",smetadata.name_de.ire."${query}",sname.ire."${query}"),sactive.eq.true)&select=smetadata,scoordinate,sname` + ORIGIN
     );
     if (response.ok) {
       return await response.json();
@@ -114,7 +114,7 @@ export async function requestGetCoordinatesFromSearch(query) {
 
       let formattedMobilityCarsharingStationsData = [];
       const mobilityCarsharingStationsRequest = await fetch(
-        `${BASE_PATH_MOBILITY}/tree,node/CarsharingStation/*/latest?where=and(or(smetadata.name_it.ire."${query}",smetadata.name_en.ire."${query}",smetadata.name_de.ire."${query}",sname.ire."${query}"),sactive.eq.true)&select=smetadata,scoordinate,sname` + ORIGIN
+        `${BASE_PATH_MOBILITY}/tree,node/CarsharingStation/*/latest?limit=-1&where=and(or(smetadata.name_it.ire."${query}",smetadata.name_en.ire."${query}",smetadata.name_de.ire."${query}",sname.ire."${query}"),sactive.eq.true)&select=smetadata,scoordinate,sname` + ORIGIN
       );
       const mobilityCarsharingStationsResponse = await mobilityCarsharingStationsRequest.json();
       if (

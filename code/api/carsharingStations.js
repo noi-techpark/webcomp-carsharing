@@ -7,7 +7,7 @@ import { BASE_PATH_MOBILITY, ORIGIN } from "./config";
 export const requestCarsharingStations = async () => {
   try {
     const request = await fetch(
-      `${BASE_PATH_MOBILITY}/flat,node/CarsharingStation/number-available/latest?where=sactive.eq.true&select=scoordinate,scode,smetadata,sname,sdatatypes` + ORIGIN
+      `${BASE_PATH_MOBILITY}/flat,node/CarsharingStation/number-available/latest?limit=-1&where=sactive.eq.true&select=scoordinate,scode,smetadata,sname,sdatatypes` + ORIGIN
     );
     if (request.status !== 200) {
       throw new Error(request.statusText);
@@ -21,7 +21,7 @@ export const requestCarsharingStations = async () => {
 export const requestCarsharingCars = async () => {
   try {
     const request = await fetch(
-      `${BASE_PATH_MOBILITY}/flat,node/CarsharingCar/availability/latest?where=sorigin.eq.%22AlpsGo%22,sactive.eq.true&select=scode,smetadata,mvalue,mvalidtime` + ORIGIN
+      `${BASE_PATH_MOBILITY}/flat,node/CarsharingCar/availability/latest?limit=-1&where=sorigin.eq.%22AlpsGo%22,sactive.eq.true&select=scode,smetadata,mvalue,mvalidtime` + ORIGIN
     );
     if (request.status !== 200) {
       throw new Error(request.statusText);
@@ -63,7 +63,7 @@ export const requestCarsharingCar = async ({ scode }) => {
 export const requestStationCarRelations = async () => {
   try {
     const request = await fetch(
-      `${BASE_PATH_MOBILITY}/flat,node/CarsharingCar/current-station/latest?where=sorigin.eq."AlpsGo",sactive.eq.true&select=scode,mvalue` + ORIGIN
+      `${BASE_PATH_MOBILITY}/flat,node/CarsharingCar/current-station/latest?limit=-1&where=sorigin.eq."AlpsGo",sactive.eq.true&select=scode,mvalue` + ORIGIN
     );
     if (request.status !== 200) {
       throw new Error(request.statusText);
