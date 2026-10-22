@@ -24,10 +24,8 @@
   font-family: var(--w-c-font-family, Suedtirol, KievitWebPro, sans-serif);
   position: relative;
   overflow: hidden;
-  @media only screen and (min-width: 992px) {
-    width: var(--width);
-    height: var(--height);
-  }
+  width: 100%;
+  height: 100%;
 }
 
 .detailDescription {
@@ -70,37 +68,8 @@
 
 #map {
   z-index: 1;
-  @media only screen and (min-width: 992px) {
-    width: var(--width);
-    height: var(--height);
-  }
-}
-
-.mobile {
-  &.MODE__mobile__open {
-    #map {
-      width: 100vw;
-      height: calc(100vh - 80px);
-    }
-  }
-  &.MODE__mobile__closed {
-    #map {
-      width: 100vw;
-      height: 300px;
-    }
-    .MODE__mobile__closed__overlay {
-      background: rgba(255, 255, 255, 0.64);
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }
+  width: 100%;
+  height: 100%;
 }
 
 .carsharing__sideBar {
@@ -206,9 +175,26 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: $gray-500;
-  opacity: 0.6;
+  background-color: rgba(136, 137, 139, 0.6);
   z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loadingSpinner {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 255, 255, 0.35);
+  border-top-color: $white;
+  animation: carsharing-spin 0.7s linear infinite;
+}
+
+@keyframes carsharing-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 // Globals

@@ -32,7 +32,6 @@ import "./shared_components/sideModalRow/sideModalRow";
 import "./shared_components/sideModalTabs/sideModalTabs";
 import "./shared_components/radialProgress/radialProgress";
 import "./shared_components/tag/tag";
-import { t } from "./translations";
 import { isMobile, LANGUAGES } from "./utils";
 import CarsharingStyle from "./odh-carsharing.scss";
 
@@ -50,11 +49,12 @@ class Carsharing extends BaseCarsharing {
   }
 
   handleWindowResize() {
-    if (isMobile() !== this.isMobile) {
-      if (!this.isMobile) {
-        this.mobileOpen = false;
+    const nextIsMobile = isMobile();
+    if (nextIsMobile !== this.isMobile) {
+      this.isMobile = nextIsMobile;
+      if (nextIsMobile) {
+        this.mobileOpen = true;
       }
-      this.isMobile = isMobile();
     }
   }
 
@@ -67,7 +67,34 @@ class Carsharing extends BaseCarsharing {
   }
   disconnectedCallback() {
     window.removeEventListener("resize", this.handleWindowResize.bind(this));
+    if (this._mapResizeObserver) {
+      this._mapResizeObserver.disconnect();
+      this._mapResizeObserver = undefined;
+    }
     super.disconnectedCallback();
+  }
+
+  syncMapSize() {
+    const mapEl = this.shadowRoot && this.shadowRoot.getElementById("map");
+    if (!this.map || !mapEl) return;
+    const width = mapEl.clientWidth;
+    const height = mapEl.clientHeight;
+    if (!width || !height) return;
+    if (width === this._mapBoxWidth && height === this._mapBoxHeight) return;
+    this._mapBoxWidth = width;
+    this._mapBoxHeight = height;
+    this.map.invalidateSize();
+  }
+
+  watchMapSize() {
+    this.syncMapSize();
+    const mapEl = this.shadowRoot.getElementById("map");
+    if (!mapEl || typeof ResizeObserver === "undefined") return;
+
+    this._mapResizeObserver = new ResizeObserver(() => {
+      this.syncMapSize();
+    });
+    this._mapResizeObserver.observe(mapEl);
   }
 
 
@@ -77,6 +104,8 @@ class Carsharing extends BaseCarsharing {
 
   async firstUpdated() {
     initializeMap.bind(this)();
+    this.watchMapSize();
+    requestAnimationFrame(() => this.syncMapSize());
     drawUserOnMap.bind(this)();
 
     // Load car brands from data service and set up filters
@@ -88,6 +117,10 @@ class Carsharing extends BaseCarsharing {
 
     this.isLoading = false;
     this.firstLoad = false;
+    this._mapBoxWidth = undefined;
+    this._mapBoxHeight = undefined;
+    this.syncMapSize();
+    requestAnimationFrame(() => this.syncMapSize());
   }
 
   handleChangeTab(id) {
@@ -157,8 +190,16 @@ class Carsharing extends BaseCarsharing {
       }
     }
 
+    const hostHeight =
+      this.isMobile && !this.mobileOpen ? "300px" : this.height;
+
     return html`
       <style>
+        :host {
+          display: block;
+          width: ${this.width};
+          height: ${hostHeight};
+        }
         * {
           --width: ${this.width};
           --height: ${height};
@@ -176,16 +217,9 @@ class Carsharing extends BaseCarsharing {
           isSmallHeight: isSmallHeight,
         })}
       >
-        ${this.isLoading ? html`<div class="globalOverlay"></div>` : ""}
-        ${this.isMobile && !this.mobileOpen
-          ? html`<div class="MODE__mobile__closed__overlay">
-              <wc-button
-                @click="${() => {
-                  this.mobileOpen = true;
-                }}"
-                type="primary"
-                .content="${t["openTheMap"][this.language]}"
-              ></wc-button>
+        ${this.isLoading
+          ? html`<div class="globalOverlay" aria-busy="true">
+              <div class="loadingSpinner"></div>
             </div>`
           : ""}
         ${(this.isMobile && this.mobileOpen) || !this.isMobile
@@ -222,9 +256,7 @@ class Carsharing extends BaseCarsharing {
           : null}
 
         <div id="map"></div>
-        ${!this.isMobile || (this.isMobile && this.mobileOpen)
-          ? render__mapControls.bind(this)()
-          : null}
+        ${render__mapControls.bind(this)()}
       </div>
     `;
   }

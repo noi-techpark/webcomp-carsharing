@@ -16,7 +16,7 @@ export class BaseCarsharing extends LitElement {
     this.disableDirections = false;
 
     this.isLoading = true;
-    this.mobileOpen = false;
+    this.mobileOpen = true;
     this.isMobile = isMobile();
 
     this.map = undefined;
