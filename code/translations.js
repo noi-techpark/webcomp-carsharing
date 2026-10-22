@@ -3,11 +3,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 export const t = {
-  openTheMap: {
-    it: "Apri la mappa",
-    en: "Open the map",
-    de: "Karte öffnen",
-  },
   search: {
     it: "Cerca",
     en: "Search",
