@@ -192,6 +192,8 @@ export class CarsharingDataService {
       maxVehicles: station.smetadata.capacity_max || 1,
       lastUpdated: station.mvalidtime,
       metadata: station.smetadata,
+      providerMetadata: station.pmetadata,
+      origin: station.sorigin
     };
   }
 
@@ -346,6 +348,8 @@ export class CarsharingDataService {
         maxVehicles: stationMaxCapacity, // Use station's max capacity from metadata
         lastUpdated: station.mvalidtime,
         metadata: station.smetadata,
+        providerMetadata: station.pmetadata,
+        origin: station.sorigin
       };
 
       return {
