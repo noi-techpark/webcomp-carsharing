@@ -20,7 +20,7 @@ export function render_details() {
   const sheight = 50;
   const fontSize = 14;
 
-  const bookCarUrl = 'https://www.alpsgo.it';
+const bookCarUrl = station.metadata?.booking_url || station.providerMetadata?.booking_url || (station.origin === 'AlpsGo' ? 'https://www.alpsgo.it' : null);
   const directionsUrl = `http://www.google.com/maps/place/${station.coordinates.lat},${station.coordinates.lng}`;
 
   const carDetails = [];
@@ -82,13 +82,14 @@ export function render_details() {
 
         ${carDetails}
 
+        ${bookCarUrl ? html`
     <div>
       <wc-detail-button @click="${() => {
         window.open(bookCarUrl, '_blank');
       }}"
       .text=${t["bookCar"][this.language]}
       ></wc-detail-button>
-    </div>
+    </div>` : ''}
 
     <div>
       <wc-detail-button @click="${() => {
