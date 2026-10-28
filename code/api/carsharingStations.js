@@ -7,7 +7,7 @@ import { BASE_PATH_MOBILITY, ORIGIN } from "./config";
 export const requestCarsharingStations = async () => {
   try {
     const request = await fetch(
-      `${BASE_PATH_MOBILITY}/flat,node/CarsharingStation/number-available/latest?limit=-1&where=sactive.eq.true&select=scoordinate,scode,smetadata,sname,sdatatypes,pmetadata,sorigin` + ORIGIN
+      `${BASE_PATH_MOBILITY}/flat,node/CarsharingStation/number-available/latest?limit=-1&where=sactive.eq.true&select=scoordinate,scode,smetadata,sname,sdatatypes` + ORIGIN
     );
     if (request.status !== 200) {
       throw new Error(request.statusText);
