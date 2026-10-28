@@ -20,7 +20,7 @@ export function render_details() {
   const sheight = 50;
   const fontSize = 14;
 
-const bookCarUrl = station.metadata?.booking_url || station.providerMetadata?.booking_url || (station.origin === 'AlpsGo' ? 'https://www.alpsgo.it' : null);
+  const bookCarUrl = station.metadata?.booking_url
   const directionsUrl = `http://www.google.com/maps/place/${station.coordinates.lat},${station.coordinates.lng}`;
 
   const carDetails = [];
